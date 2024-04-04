@@ -1,0 +1,347 @@
+@import "../../../styles.scss";
+
+*{
+  scrollbar-width: thin !important;
+} 
+
+.sideBarContainer {
+  height: 100%;
+}
+
+.sideBarContent {
+  height: calc(100vh - 140px);
+  width: 366px;
+  border-radius: 30px;
+  padding: 32px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  justify-content: flex-start;
+  background-color: white;
+  box-sizing: border-box;
+
+  .sideBardHeader {
+    width: 306px;
+    display: flex;
+    align-items: center;
+
+    .serverName {
+      width: 250px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 20px;
+
+      div {
+        font-size: 24px;
+        font-weight: 700;
+      }
+    }
+
+    .newMessage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 20px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $bgColor;
+        color: $purple1;
+      }
+
+      &:active {
+        background-color: $bgColor;
+        color: black;
+        font-variation-settings: "wght" 600;
+      }
+    }
+  }
+
+  .mobileNewMessage {
+    display: none;
+  }
+}
+
+.sideBarBody {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 306px;
+  max-height: 800px;
+  overflow-y: scroll;
+
+  .dropDown {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .rotate-icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .sidebarSectionContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    .sidebarSectionHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .sidebarSectionHeadRight {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 5px 10px 5px 0;
+
+        &:hover {
+          cursor: pointer;
+          .dropDown {
+            color: $purple3;
+          }
+          .sectionTitle {
+            color: $purple3;
+          }
+        }
+
+        &:active {
+          .sectionTitle {
+            div:last-of-type {
+              color: black;
+            }
+          }
+        }
+
+        .sectionTitle {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          div:first-of-type {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          div:last-of-type {
+            font-size: 20px;
+            font-weight: 700;
+          }
+        }
+      }
+
+      .sidebarSectionHeadLeft {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+          color: $purple3;
+        }
+        &:active {
+          background-color: unset;
+          color: black;
+          font-variation-settings: "wght" 600;
+        }
+      }
+    }
+
+    .allChannels {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+
+      .singleChannel {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 20px;
+        margin-left: 25px;
+        border-radius: 20px;
+        width: fit-content;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+
+          mat-icon {
+            color: $purple3;
+          }
+        }
+
+        &:active {
+          font-weight: 700;
+          color: $purple3;
+
+          mat-icon {
+            font-variation-settings: "wght" 600;
+          }
+        }
+      }
+    }
+
+    .addChannel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0 4px 45px;
+
+      &:hover {
+        cursor: pointer;
+        color: $purple3;
+
+        mat-icon {
+          font-variation-settings: "wght" 600;
+        }
+      }
+
+      &:active {
+        mat-icon {
+          font-variation-settings: unset;
+        }
+        div {
+          color: black;
+        }
+      }
+
+      div {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .allUsers {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+
+    .singleUser {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 4px 20px;
+      border-radius: 35px;
+      margin-left: 25px;
+      width: fit-content;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $bgColor;
+      }
+
+      &:active {
+        .userName {
+          color: $purple3;
+          font-weight: 700;
+        }
+      }
+      .userImage {
+        position: relative;
+        width: 50px;
+        height: 50px;
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: contain;
+          position: relative;
+        }
+        .onlineStatus {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid white;
+          box-sizing: border-box;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+
+          &.online {
+            background-color: $onlineGreen;
+          }
+
+          &.away {
+            background-color: $textGray;
+          }
+        }
+      }
+
+      .userName {
+        display: flex;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.toggleSideBar {
+  position: fixed;
+  left: 0;
+  bottom: 150px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+
+  div {
+    transform: rotate(-90deg);
+    transform-origin: 0% 0%;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 120%;
+    background-color: white;
+    padding: 23px 14px;
+    display: flex;
+    align-items: center;
+    border-radius: 0 0 30px 30px;
+    filter: drop-shadow(-4px 4px 7px rgba(0, 0, 0, 0.2));
+    pointer-events: all;
+
+    &:hover {
+      cursor: pointer;
+      color: $purple1;
+      font-weight: 700;
+      svg {
+        --icon-stroke: #{$purple1};
+        --icon-stroke-width: 2.5;
+      }
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+    transform: rotate(90deg);
+  }
+}
+
+.active {
+  font-weight: 700;
+  color: $purple3;
+  background-color: $bgColor;
+
+  mat-icon {
+    color: $purple3;
+    font-variation-settings: "wght" 600;
+  }
+
+  app-dialog-add-channel {
+    z-index: 20;
+  }
+
+  app-dialog-add-user-new-channel {
+    z-index: 21;
+  }
+}

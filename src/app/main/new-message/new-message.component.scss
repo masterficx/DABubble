@@ -1,0 +1,149 @@
+@import "../../../styles.scss";
+
+* {
+  scrollbar-width: thin !important;
+}
+
+.newMessageContainer {
+  height: calc(100vh - 146px);
+  width: calc(100vw - 426px);
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .head {
+    padding: 32px 45px 20px 45px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 30px 30px 0 0;
+    position: relative;
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    ::placeholder {
+      color: $textGray;
+      opacity: 1;
+    }
+
+    input {
+      padding: 15px 20px;
+      border-radius: 30px;
+      border: 1px solid $lightPurple;
+      outline: none;
+      font-size: 18px;
+
+      &:hover {
+        cursor: text;
+        border: 1px solid $purple2;
+      }
+
+      &:focus {
+        border: 1px solid $purple3;
+      }
+    }
+  }
+
+  .textBox {
+    padding: 45px 71px;
+    min-height: 145px;
+  }
+
+  .userSelection {
+    position: absolute;
+    top: 150px;
+    left: 50px;
+    background-color: white;
+    width: 320px;
+    max-height: 240px;
+    border-radius: 0 30px 30px 30px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .allUser {
+      max-height: 200px;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      gap: 8px;
+
+      .singleUser {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 2px 16px;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: fit-content;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+
+        .name {
+          font-size: 18px;
+        }
+
+        .onlineStatus {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+
+          box-sizing: border-box;
+
+          &.online {
+            border: 2px solid $onlineGreen;
+            background-color: $onlineGreen;
+          }
+
+          &.away {
+            border: 2px solid $textGray;
+          }
+        }
+      }
+    }
+
+    .allChannel {
+      max-height: 200px;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      gap: 8px;
+
+      .singleChannel {
+        padding: 2px 16px;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: fit-content;
+        font-size: 18px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+      }
+    }
+  }
+}

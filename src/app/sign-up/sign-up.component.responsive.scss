@@ -1,0 +1,220 @@
+@media screen and (max-width: 650px) {
+    .sign-up-main{
+        align-items: center;
+    }
+
+    .sign-up-form-container {
+        width: 398px;
+        height: unset;
+        margin-left: 0;
+
+        h1 {
+            font-size: 30px;
+        }
+
+        form {
+            width: 358px;
+
+            input {
+                width: 358px;
+            }
+        }
+    }
+
+    .the-title {
+        display: inline;
+        width: 290px;
+        margin-bottom: 0px;
+    }
+
+    .sign-up-hint {
+        font-size: 17px;
+        width: 358px;
+    }
+
+    .error-message-container {
+        width: 358px;
+    }
+
+    .privacy-policy-container {
+        width: 358px;
+    }
+
+    .go-back-to-login-btn {
+        top: 30px;
+        left: 20px;
+    }
+
+    .sign-up-btns-container {
+        width: 358px;
+    }
+
+    .lower-links-container {
+        display: none;
+    }
+
+
+    .logo-container {   
+        margin: 0;
+    }
+
+    .picture-choice-container {
+        margin: 0;
+        width: 398px;
+        height: unset;
+
+        h1 {
+            font-size: 32px;
+        }
+
+    }
+
+    .picture-choice-info {
+        width: 358px;
+    }
+
+
+
+    .generic-profile-pic-list {
+        width: 358px !important;
+        gap: 0px !important;
+
+        img {
+            width: 48px !important;
+            height: 48px !important;
+        }
+    }
+
+    .personal-pic-upload-container {
+        width: 358px;
+        margin-bottom: 0px;
+
+        p {
+            font-size: 17px;
+        }
+
+        button {
+            padding: 8px 13px 8px 13px !important;
+            font-size: 17px;
+            gap: 0;
+        }
+    }
+
+    .p2 {
+        font-size: 17px !important;
+    }
+
+    .next-btn {
+        font-size: 17px !important;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .successfull-sign-up-main {
+        bottom: 30px;
+        right: 30px;
+        font-size: 25px;
+        padding: 25px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .sign-up-main {
+        flex-direction: column;
+        gap: 30px;
+        width: 100vw;
+        height: auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .logo-container {
+        position: unset;
+    }
+
+    .go-back-to-login-btn {
+        left: 10px;
+    }
+
+    .sign-up-form-container {
+        width: 100% !important;
+        border-radius: unset;
+
+
+        form {
+            width: 100% !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    .login-input-main {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sign-up-name-input,
+    .sign-up-btns-container,
+    .error-message-container,
+    .sign-up-hint,
+    .sign-up-email-input {
+        width: calc(100% - 20px) !important;
+    }
+
+    .sign-up-password-input{
+        width: 100% !important;
+    }
+
+    .privacy-policy-container{
+        width: calc(100% - 20px) !important;
+        font-size: 14px;
+    }
+
+    .picture-choice-container{
+        width: 100vw !important;
+        border-radius: unset;
+    }
+
+    .generic-profile-pic-list{
+        width: 100% !important;
+        justify-content: space-around;
+         img{
+            width: 44px !important;
+            height: 44px !important;
+        }
+    }
+
+    .picture-choice-info{
+        width: calc(100% - 20px) !important;
+    }
+
+    .personal-pic-upload-container{
+        width: calc(100% - 20px) !important;
+        gap: 10px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .generic-profile-pic-list{
+        width: 100% !important;
+        display: flex;
+        justify-content: space-around !important;
+        gap: 5px;
+         img{
+            width: 42px !important;
+            height: 42px !important;
+        }
+    }
+    .successfull-sign-up-main{
+        font-size: 21px;
+        padding: 19px;
+    }
+}

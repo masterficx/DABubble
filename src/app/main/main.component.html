@@ -1,0 +1,11 @@
+<app-header></app-header>
+
+<div *ngIf="userLoaded" class="main-content">
+  <app-side-bar *ngIf="viewManagementService.showSidebar$ | async"></app-side-bar>
+  <app-main-chat *ngIf="viewManagementService.showMainChat$ | async"></app-main-chat>
+  <app-new-message *ngIf="viewManagementService.showNewMessage$ | async"></app-new-message>
+  <app-secondary-chat *ngIf="viewManagementService.showSecondaryChat$ | async"></app-secondary-chat>
+</div>
+
+<app-profil-card></app-profil-card>
+

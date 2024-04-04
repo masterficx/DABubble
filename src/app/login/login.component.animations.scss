@@ -1,0 +1,117 @@
+.start-animation-background{
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(1.46deg,#313ae6 1.22%,#797ef3 98.76%);
+    position: absolute;
+    z-index: 1;
+}
+
+.start-animation-container{
+    display: flex;
+    z-index: 2;
+    position: absolute;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    animation-name: makeMainDivDisappear;
+    animation-delay: 2800ms;
+    animation-timing-function: ease-out;
+    animation-duration: 500ms;
+    
+    p{
+        z-index: 1;
+        font-family: Nunito;
+        color: white;
+        font-size: 96px;
+        font-weight: 600;
+        margin: 0;
+        white-space: nowrap;
+    }
+}
+
+.start-animation-logo-and-text-container{
+    z-index: 1;
+    animation-name: moveDivToTopLeftCorner;
+    animation-timing-function: ease-out;
+    animation-delay: 2800ms;
+    animation-duration: 1200ms;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.start-animation-text-container{
+    overflow-x: hidden;
+    z-index: 1;
+}
+
+.start-animation-logo{
+    z-index: 1;
+}
+
+.animate-the-text{
+    animation: slideTheTextIn 500ms ease-out;
+}
+
+.animate-the-logo{
+    animation: moveTheLogoToTheLeft 125ms ease-out;
+}
+
+.d-none {
+    display: none;
+}
+
+@keyframes makeMainDivDisappear {
+    0%{
+        opacity: 1;
+    }
+
+    80%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes moveDivToTopLeftCorner {
+    0%{
+        transform: scale(1) translateX(0%) translateY(0%);
+        opacity: 1;
+    }
+
+    60%{
+        opacity: 0;
+    }
+
+    100%{
+        transform: scale(0.3) translateX(-110vw) translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+@keyframes moveTheLogoToTheLeft {
+
+    0% {
+        transform: translateX(0px);
+    }
+
+    100% {
+        transform: translateX(-230px);
+    }
+    
+}
+
+@keyframes slideTheTextIn {
+    0% {
+        transform: translateX(-440px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}

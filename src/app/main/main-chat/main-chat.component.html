@@ -1,0 +1,155 @@
+<div (click)="closeDialog()" class="dialogBackground"
+    *ngIf="addMemberDialogOpen || channelEditionDialogOpen || showMembersDialogOpen">
+</div>
+
+<div class="mainChatWrapper">
+    <!--     <div class="mainChatContainer" [ngClass]="{'mainChatFullWidth': !threadOpen}"> -->
+    <div class="mainChatContainer">
+        <!-- ======================================== MAIN CHAT HEADER ========================================== -->
+        @if(activeChannelId) {
+        <!-- =========== TEMPLATE MAIN CHAT HEADER - CHANNELS ============= -->
+            <div class="mainChatHeader">
+                <div class="mainChatHeaderLeft" (click)="toggleDialog('channelEdition')">
+                    <div>&#35;</div>
+                    <div>{{channel?.name}}</div>
+                    <div>
+                        <mat-icon class="material-symbols-outlined" fontIcon="keyboard_arrow_down"></mat-icon>
+                    </div>
+                </div>
+
+                <div class="mainChatHeaderRight">
+                    <div (click)="toggleDialog('showMembers')">
+                        <div class="memberPhotos">
+                            @for (member of channelMembers | slice:0:3; track $index) {
+                            <div>
+                                <img [src]="member?.imgUrl">
+                            </div>
+                            }
+                            <div *ngIf="channelMembers?.length > 3">
+                                <div>+{{channelMembers?.length - 3}}</div>
+                            </div>
+                        </div>
+                        <div>{{channelMembers?.length}}</div>
+                    </div>
+                    <div (click)="toggleDialog('addMember'); scrollToBottom()" >
+                        <span class="material-symbols-outlined">person_add</span>
+                    </div>
+                </div>
+
+                <!--========== Channel Edition/ Dialog ============-->
+                <app-channel-edition-dialog [channelData]="channel" [currentChannelId]="activeChannelId" [currentUser]="currentUser" [channelMembers]="channelMembers" [channelCreatorName]="channelCreatorName" *ngIf="channelEditionDialogOpen"
+                    (channelEditionDialogOpenChild)="setBoolean(channelEditionDialogOpen)"></app-channel-edition-dialog>
+                <!--=================================================-->
+
+                <!--============== Show member Dialog ================-->
+                <app-show-members-dialog [currentChannelId]="activeChannelId" [channelMembers]="channelMembers" [currentUser]="currentUser" *ngIf="showMembersDialogOpen"
+                    (addMembersDialogOpenOpenChildShow)="switchToAddMembers(addMemberDialogOpen)"
+                    (showMembersDialogOpenChild)="setBoolean(showMembersDialogOpen)"></app-show-members-dialog>
+                <!--=================================================-->
+
+                <!--========== Add member Dialog ============-->
+                <app-add-members-dialog [channelData]="channel" [currentChannelId]="activeChannelId"  *ngIf="addMemberDialogOpen"
+                    (addMemberDialogOpenChild)="setBoolean(addMemberDialogOpen)"></app-add-members-dialog>
+                <!--=================================================-->
+            </div>
+            <!-- ================================================== -->
+        } 
+        
+        @if(activeDmUser) {
+        <!-- =========== TEMPLATE MAIN CHAT HEADER - DM =========== -->
+            <div class="mainChatHeader">
+                <div class="mainChatHeaderLeftDm" (click)="openProfileCard()">
+                    <div class="userImg">
+                        <img [src]="activeDmUserData?.imgUrl || '/assets/img/login/profile_generic_big.png'">
+                        <div class="userStatus" [ngStyle]="{'background-color': activeDmUserData?.isOnline ? '#92c83e' : '#686868' }"></div>
+                    </div>
+                    <div class="dmUserName">{{activeDmUserName}} <span *ngIf="currentUser == activeDmUser">(Du)</span></div>
+                </div>
+            </div>
+            <app-profilecards-other-users *ngIf="showProfileCard" [memberData]="activeDmUserData" [showProfileCard]="showProfileCard" 
+            (showProfileCardChild)="closeProfileCard(showProfileCard)"></app-profilecards-other-users>
+        }
+        <!-- ===================================================================================================== -->
+
+        <!-- ======================================== MAIN CHAT MESSAGES ========================================== -->
+        <div class="mainChatMessages" #mainChat>
+            @if(activeChannelId) {
+                <!-- =========== Template main chat beginning - Channel ============= -->
+                <div class="beginningOfChannel">
+                    <div>
+                        <div>&#35;</div>
+                        <div>{{channel?.name}}</div>
+                    </div>
+                    <div *ngIf="channel?.createdBy && channel?.creationDate">
+                        <div *ngIf="currentUser === channel?.createdBy">
+                            Du hast den Channel am {{ channel?.creationDate | date: 'dd.MM.yyyy' }} erstellt. Das ist der Anfang des Channels <span style="color: rgba(83, 90, 241, 1)">#{{channel?.name}}</span>.
+                        </div>
+                        <div *ngIf="currentUser !== channel?.createdBy">
+                            Der Channel wurde von {{ channelCreatorName }} am {{ channel?.creationDate | date: 'dd.MM.yyyy' }} erstellt.<br> Das ist der Anfang des Channels <span style="color: rgba(83, 90, 241, 1)">#{{channel?.name}}</span>.
+                        </div>
+                        </div>
+                </div>
+                <!-- ================================================================ -->
+            }
+
+            @if(activeDmUser && currentUser !== activeDmUser) {
+                <!-- =========== Template main chat beginning - DM ============= -->
+                <div class="beginningOfChannel">
+                    <div>
+                        <div class="userImg-dm">
+                            <img [src]="activeDmUserData?.imgUrl || '/assets/img/login/profile_generic_big.png'">
+                        </div>
+                        <div>{{activeDmUserName}}</div>
+                    </div>
+                    <div>
+                        Diese Unterhaltung findet nur zwischen <span style="color: rgba(83, 90, 241, 1)">&#64;{{activeDmUserName}}</span> und dir statt.
+                    </div>
+                </div>
+                <!-- ================================================================ -->
+            }
+
+            @if(activeDmUser && currentUser == activeDmUser) {
+                <!-- =========== Template main chat beginning - DM ============= -->
+                <div class="beginningOfChannel">
+                    <div>
+                        <div class="userImg-dm">
+                            <img [src]="activeDmUserData?.imgUrl || '/assets/img/login/profile_generic_big.png'">
+                        </div>
+                        <div>{{activeDmUserName}} (Du)</div>
+                    </div>
+                    <div>
+                        Diese Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.
+                    </div>
+                </div>
+                <!-- ================================================================ -->
+            }
+
+            <!-- =================== Time separator / Threads ===================== -->
+            @for (threadTimeSeparator of threadCreationDates; track $index) {
+                <div class="timeSeparator">
+                    <div>
+                        <div>{{threadTimeSeparator?.timeSeparatorDate}}</div>
+                    </div>
+                </div>
+                @for (thread of channelThreadsDateTime; track $index) {
+                    @if(thread?.dateString == threadTimeSeparator?.dateString) {
+                        <app-thread [activeChannelId]="activeChannelId" [thread]="thread" [currentUser]="currentUser" [activeDmUser]="activeDmUser" 
+                        [acitveDmUserData]="activeDmUserData" [path]="path" [currentUserName]="currentUserName"></app-thread>
+                    }
+                }
+            }           
+        </div>
+        <!-- =================================================================================================== -->
+
+        <!-- ======================================== MAIN CHAT INPUT ========================================== -->
+
+        <div class="mainChatInput">
+            <app-text-box *ngIf="activeChannelId" [messageType]="'channel'" [targetId]="this.activeChannelId" [placeholderText]="'Nachricht an #' + channel?.name">
+            </app-text-box>
+            <app-text-box *ngIf="activeDmUser" [messageType]="'direct'" [targetId]="this.activeDmUser" [placeholderText]="'Nachricht an @' + activeDmUserName">
+            </app-text-box>
+        </div>        
+        <!-- =================================================================================================== -->
+    </div>
+    <!-- <app-secondary-chat  *ngIf="threadOpen" (closeThreadEvent)="threadOpen = false"></app-secondary-chat> -->
+</div>

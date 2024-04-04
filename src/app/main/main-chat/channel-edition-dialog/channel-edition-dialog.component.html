@@ -1,0 +1,121 @@
+<div class="channelEdition" (click)="doNotClose($event)">
+    <div class="channelEditionHeader">
+        <div>
+            <div>&#35;</div>
+            <div>{{channelData?.name}}</div>
+        </div>
+
+        <div (click)="closeDialog()">
+            <span class="material-symbols-outlined">close</span>
+        </div>
+    </div>
+    <div class="channelEditionSubcontainer">   
+        <!-- ======== Channel edit Name ======== -->
+        <div class="channelEditionName" *ngIf="showchannelEditionName">
+            <div>
+                <div>Channel-Name</div>
+                <div *ngIf="!editMobile" (click)="editChannelName()">Bearbeiten</div>
+                <div *ngIf="editMobile" (click)="editChannelName()">
+                    <img src="assets/img/main-chat/edit.svg">
+                </div>
+            </div>
+            <div>
+                <div>&#35;</div>
+                <div>{{channelData?.name}}</div> 
+            </div>
+        </div>
+    
+        <div class="channelEditionNameEdit" *ngIf="!showchannelEditionName">
+            <div>
+                <div>Channel-Name</div>
+                <div *ngIf="!saveMobile" (click)="saveChannelName()">Speichern</div>
+                <div *ngIf="saveMobile" (click)="saveChannelName()">
+                    <img src="assets/img/main-chat/saveEdit.svg">
+                </div>
+            </div>
+            <div>
+                <div>&#35;</div>
+                <input type="text" [(ngModel)]="editedChannelName" placeholder="{{channelData?.name}}">
+            </div>
+        </div>
+        <!-- ====================================== -->
+    
+        <!-- ======== Channel edit Description ======== -->
+        <div class="channelEditionDescription" *ngIf="showchannelEditionDescription">
+            <div>
+                <div>Beschreibung</div>
+                <div *ngIf="!editMobile" (click)="editChannelDescription()">Bearbeiten</div>
+                <div *ngIf="editMobile" (click)="editChannelDescription()">
+                    <img src="assets/img/main-chat/edit.svg">
+                </div>
+            </div>
+            <div>{{channelData?.description}}</div>
+            <div></div>
+            <div>Erstellt von</div>
+            <div>{{channelCreatorName}}</div>
+        </div>
+    
+        <div class="channelEditionDescriptionEdit" *ngIf="!showchannelEditionDescription">
+            <div>
+                <div>Beschreibung</div>
+                <div *ngIf="!saveMobile"(click)="saveChannelDescription()">Speichern</div>
+                <div *ngIf="saveMobile" (click)="saveChannelName()">
+                    <img src="assets/img/main-chat/saveEdit.svg">
+                </div>
+            </div>
+            <div>
+                <input type="text" [(ngModel)]="editedChannelDescription" placeholder="Dein Text hier">
+            </div>
+            <div></div>
+            <div>Erstellt von</div>
+            <div>{{channelCreatorName}}</div>
+        </div>
+        <!-- ====================================== -->
+    
+        <!--============== Show members ================-->
+        <app-show-members-dialog *ngIf="showMembersInEditionDialog" [currentChannelId]="currentChannelId" [channelMembers]="channelMembers" [currentUser]="currentUser" 
+         (addMemberDialogOpenChild)="openAddMemberMobile(addMemberDialogOpen)">
+        </app-show-members-dialog>
+    
+        <!--============== Leave Channel button ================-->
+        <div *ngIf="this.currentUser !== this.channelData.createdBy" class="channelEditionButtonContainer">
+            <button class="channelEditionButton" (click)="openAskLeaveChannel()">Channel verlassen</button>
+        </div>
+        <div *ngIf="this.currentUser == this.channelData.createdBy" class="channelEditionButtonContainer">
+            <button class="channelEditionButton" (click)="openAskLeaveChannel()">Channel löschen</button>
+        </div>
+    
+        <!-- ========= POPUP EDIT CHANNEL DATA ========= -->
+        <div class="popupEditChannelData" *ngIf="showPopup">
+            <div>
+                Bearbeitung nicht möglich. Du bist nicht der Administrator dieses Channels.
+            </div>
+        </div>
+    
+        <!-- ========= POPUP LEAVE CHANNEL ========= -->
+        <div class="showPopupLeaveChannel" *ngIf="showPopupLeaveChannel" (click)="closePopupLeaveChannel()">
+            <div (click)="doNotClose($event)">
+                <div *ngIf="this.currentUser !== this.channelData.createdBy">
+                    Möchtest du den Channel wirklich verlassen?
+                </div>
+                <div *ngIf="this.currentUser == this.channelData.createdBy">
+                    Möchtest du als Administrator den Channel wirklich löschen?
+                </div>
+                <div>
+                    <button *ngIf="this.currentUser !== this.channelData.createdBy" class="channelEditionButton" (click)="closePopupLeaveChannel()">Mitglied bleiben</button>
+                    <button *ngIf="this.currentUser == this.channelData.createdBy" class="channelEditionButton" (click)="closePopupLeaveChannel()">Channel beibehalten</button>
+                    <button *ngIf="this.currentUser !== this.channelData.createdBy" class="channelEditionButton leaveButton" (click)="leaveChannel()">Verlassen</button>
+                    <button *ngIf="this.currentUser == this.channelData.createdBy" class="channelEditionButton leaveButton" (click)="leaveChannel()">Channel löschen</button>
+                </div>   
+            </div>
+        </div>
+    
+        <!-- ========= Add members  ========= -->
+        <div *ngIf="addMemberDialogOpen" (click)="closeDialog()" class="dialogBackground">
+            <app-add-members-dialog *ngIf="addMemberDialogOpen" [channelData]="channelData" [currentChannelId]="currentChannelId" [addMembersMobileView]="addMembersMobileView"
+            (addMemberDialogOpenChild)="closeAddMemberMobile(addMemberDialogOpen)">
+            </app-add-members-dialog>    
+        </div>
+    </div>
+</div>
+

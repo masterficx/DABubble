@@ -1,0 +1,84 @@
+<div (click)="serviceProfilCard.toggleCardOverlay(false)" [class.active]="serviceProfilCard.isOverlayActive" class="overlay">
+    <div (click)="$event.stopPropagation()" [class.topRight]="serviceProfilCard.isCurrentUserActive"
+        *ngIf="serviceProfilCard.isProfilCardActive" class="cardContainer">
+
+        <div class="cardHeader" *ngIf="!edit">
+            <h3>Profil</h3>
+            <div>
+                <mat-icon class="material-symbols-outlined" fontIcon="close"
+                    (click)="serviceProfilCard.toggleCardOverlay(false)"></mat-icon>
+            </div>
+        </div>
+
+        <div class="cardHeader" *ngIf="edit">
+            <h3>Dein Profil bearbeiten</h3>
+            <div>
+                <mat-icon class="material-symbols-outlined" fontIcon="close"
+                    (click)="serviceProfilCard.toggleCardOverlay(false)"></mat-icon>
+            </div>
+        </div>
+
+        <div class="imgContainer">
+            <img src={{serviceProfilCard.profilePic}}>
+        </div>
+
+        <div *ngIf="!edit">
+            <div class="nameContainer">
+                <h3>{{serviceProfilCard.userNameandSurname}}</h3>
+                <span *ngIf="serviceProfilCard.isCurrentUserActive" (click)="toggleEdit(!edit)">Bearbeiten</span>
+            </div>
+
+            <div class="onlineStatusContainer">
+                <div class="onlineStatusImg online"></div>
+                <div class="onlineStatusText online">Active</div>
+            </div>
+        </div>
+
+        <div *ngIf="edit">
+            <div class="editNameContainer">
+                <mat-icon [class.icon-and-title-disabled]="serviceProfilCard.guestIsOnline" class="material-symbols-outlined" fontIcon="account_circle"></mat-icon>
+                <h3 [class.icon-and-title-disabled]="serviceProfilCard.guestIsOnline">Vollständiger Name</h3>
+            </div>
+
+            <div class="nameInput">
+                <input [class.input-disabled]="serviceProfilCard.guestIsOnline" [disabled]="serviceProfilCard.guestIsOnline" [(ngModel)]="newName" type="text" *ngIf="edit" placeholder="{{serviceProfilCard.userNameandSurname}}">
+            </div>
+        </div>
+
+        <div *ngIf="!edit">
+            <div class="emailContainerTop">
+                <mat-icon class="material-symbols-outlined" fontIcon="mail"></mat-icon>
+                <span>E-Mail-Adresse</span>
+            </div>
+
+            <div class="emailContainerButton">
+                <mat-icon class="material-symbols-outlined" fontIcon=""></mat-icon>
+                <span>{{serviceProfilCard.userEmailAddress}}</span>
+            </div>
+        </div>
+
+        <div class="mt-17" *ngIf="edit">
+            <div class="emailContainerTop">
+                <mat-icon [class.icon-and-title-disabled]="serviceProfilCard.guestIsOnline" class="material-symbols-outlined" fontIcon="mail"></mat-icon>
+                <span [class.icon-and-title-disabled]="serviceProfilCard.guestIsOnline">E-Mail-Adresse</span>
+            </div>
+
+            <div class="emailContainerButton">
+                <input [class.input-disabled]="serviceProfilCard.guestIsOnline" [disabled]="serviceProfilCard.guestIsOnline" [(ngModel)]="newEmail" type="text" *ngIf="edit" placeholder="{{serviceProfilCard.userEmailAddress}}">
+            </div>
+        </div>
+
+        <div *ngIf="!serviceProfilCard.isCurrentUserActive" class="messageContainer">
+            <div (click)="serviceProfilCard.writeDirectMessage()">
+                <mat-icon class="material-symbols-outlined" fontIcon="mode_comment"></mat-icon>
+                <span>Nachricht</span>
+            </div>
+        </div>
+
+        <div *ngIf="edit" class="editProfilCardButton">
+            <div (click)="toggleEdit(!edit)" class="cancelBotton">Abbrechen</div>
+            <button (click)="updateUserData()" class="saveBotton" [class.button-disabled]="serviceProfilCard.guestIsOnline" [disabled]="serviceProfilCard.guestIsOnline">Speichern</button>
+        </div>
+        <div class="blockEdit" *ngIf="serviceProfilCard.guestIsOnline && edit">* Änderungen am Gast Profil sind nicht möglich</div>
+    </div>
+</div>

@@ -1,0 +1,260 @@
+@import "../../../../styles.scss";
+
+.dialogAddUserContainer {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+
+  .dialogAddUserContent {
+    width: 700px;
+    border-radius: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
+    position: relative;
+
+    .mobileToggle {
+      display: none;
+    }
+
+    .titleAndIcon {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+          color: $purple3;
+        }
+      }
+    }
+
+    .userSelection {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      > div {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        label {
+          display: flex;
+          .highlight {
+            margin-block: unset;
+            color: $purple3;
+          }
+        }
+      }
+    }
+
+    ::placeholder {
+      color: $textGray;
+      opacity: 1;
+    }
+
+    .addedUser {
+      padding: 18px 20px;
+      border-radius: 30px;
+      border: 1px solid $lightPurple;
+      outline: none;
+      font-size: 18px;
+
+      &:hover {
+        cursor: text;
+        border: 1px solid $purple2;
+      }
+
+      &:focus {
+        border: 1px solid $purple3;
+      }
+    }
+
+    button {
+      align-self: flex-end;
+    }
+  }
+
+  .userSuggestions {
+    padding: 20px 25px;
+    border-radius: 0 20px 20px 20px;
+    background-color: white;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
+    position: absolute;
+    top: 250px;
+    left: 60px;
+
+    .allUsers {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: 160px;
+      overflow-y: scroll;
+
+      .singleUser {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 4px 20px;
+        border-radius: 35px;
+        margin-left: 25px;
+        width: fit-content;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+
+        &:active {
+          .userName {
+            color: $purple3;
+            font-weight: 700;
+          }
+        }
+        .userImage {
+          position: relative;
+          width: 50px;
+          height: 50px;
+
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: contain;
+            position: relative;
+          }
+          .onlineStatus {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-sizing: border-box;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+
+            &.online {
+              background-color: $onlineGreen;
+            }
+
+            &.away {
+              background-color: $textGray;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .textBoxContainer {
+    width: 100%;
+    height: 100%;
+    border: 1px solid $lightPurple;
+    box-sizing: border-box;
+    display: flex;
+    gap: 5px;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    border-radius: 30px;
+    position: relative;
+    padding: 16px 20px;
+
+    &:hover {
+      cursor: text;
+      border: 1px solid $purple2;
+    }
+
+    &.focused {
+      border: 1px solid $purple3;
+    }
+
+    ::placeholder {
+      color: $textGray;
+      opacity: 1;
+    }
+
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      overflow-y: scroll;
+      resize: none;
+      font-size: 18px;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .allSelectesUsers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .singleSelectedUser {
+      display: flex;
+      gap: 15px;
+      padding: 3px 10px;
+      border-radius: 35px;
+      width: fit-content;
+      background-color: $bgColor;
+
+      img {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+      }
+
+      div {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        .name {
+          font-size: 18px;
+          white-space: nowrap;
+        }
+
+        .removeUser {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &:hover {
+            cursor: pointer;
+            color: $purple1;
+
+            mat-icon {
+              font-variation-settings: "wght" 600;
+            }
+          }
+        }
+      }
+    }
+  }
+}

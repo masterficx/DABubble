@@ -1,0 +1,151 @@
+<div
+  class="textBoxContainer"
+  [class.focused]="inputFocused"
+  (click)="focusInput()"
+>
+  <textarea
+    rows="2"
+    #message
+    name="message"
+    type="text"
+    [(ngModel)]="messageModel"
+    required
+    [placeholder]="placeholderText"
+    (input)="adjustTextareaHeight($event)"
+    (focus)="onInputFocus()"
+    (blur)="onInputBlur()"
+    (keydown.enter)="onKeydown($event)"
+    (keyup.enter)="sendMessage()"
+    (keyup)="onInputChange(message.value)"
+  ></textarea>
+  <div #userSelection class="userSelection" *ngIf="displayUser || displayChannels">
+    <div class="allUser" *ngIf="displayUser">
+      <div
+        class="singleUser"
+        *ngFor="let user of filteredUsers"
+        (click)="selectUser(user.name)"
+      >
+        <img [src]="user.imgUrl" [alt]="'Image of ' + user.name" />
+        <div class="name">
+          {{ user.name }}
+        </div>
+        <span
+          *ngIf="(this.userManagementService.activeUserId$ | async) === user.id"
+          >&nbsp;(Du)</span
+        >
+        <div
+          class="onlineStatus"
+          [ngClass]="{
+            online: user.isOnline === true,
+            away: user.isOnline === false
+          }"
+        ></div>
+      </div>
+    </div>
+
+    <div class="allChannel" *ngIf="displayChannels">
+      <div
+        class="singleChannel"
+        *ngFor="let channel of filteredChannel"
+        (click)="selectChannel(channel.name)"
+      >
+        #{{ channel.name }}
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="this.imageURL"
+    class="imagePreview"
+    [style.backgroundImage]="'url(' + this.imageURL + ')'"
+  >
+    <div class="deleteUpload">
+      <mat-icon
+        (click)="removeFileUpload()"
+        class="material-symbols-rounded"
+        fontIcon="close"
+      ></mat-icon>
+    </div>
+  </div>
+  <div class="bottomIcons">
+    <div class="addElements">
+      <input
+        type="file"
+        class="file-input"
+        (change)="onFileSelected($event)"
+        #fileUpload
+      />
+
+      <mat-icon
+        (click)="fileUpload.click()"
+        class="material-symbols-rounded"
+        fontIcon="add"
+      ></mat-icon>
+      <div>
+        <img
+          _ngcontent-ng-c3762648241=""
+          src="/assets/img/main-chat/separatingLine.svg"
+        />
+      </div>
+      <mat-icon
+        (click)="toggleEmojiPicker()"
+        class="material-symbols-rounded"
+        fontIcon="sentiment_satisfied"
+      ></mat-icon>
+      <mat-icon
+        (click)="toggleMentionUser()"
+        class="material-symbols-rounded"
+        fontIcon="alternate_email"
+      ></mat-icon>
+    </div>
+
+    <div class="send">
+      <mat-icon
+        class="material-symbols-rounded-filled"
+        [class.disabled]="!isMessageNotEmpty()"
+        fontIcon="send"
+        (click)="isMessageNotEmpty() ? sendMessage() : null"
+      ></mat-icon>
+    </div>
+  </div>
+  <div
+    class="closePicker"
+    *ngIf="showEmojiPicker || showMentionUser"
+    (click)="closeEmojiPickerOrMentionUser()"
+  ></div>
+  <emoji-mart
+    #emojiMart
+    *ngIf="showEmojiPicker"
+    [darkMode]="false"
+    (emojiSelect)="handleClick($event)"
+    title="Pick your emoji…"
+    emoji="point_up"
+  >
+  </emoji-mart>
+  <div class="mentionUser" *ngIf="showMentionUser">
+    <div class="allUser">
+      <div
+        *ngFor="let user of allUsers"
+        class="singleUser"
+        (click)="insertTextAtCursor('@' + user.name)"
+      >
+        <img [src]="user.imgUrl" [alt]="'Image of ' + user.name" />
+        <div class="name">
+          {{ user.name }}
+          <span
+            *ngIf="
+              (this.userManagementService.activeUserId$ | async) === user.id
+            "
+            >&nbsp;(Du)</span
+          >
+        </div>
+        <div
+          class="onlineStatus"
+          [ngClass]="{
+            online: user.isOnline === true,
+            away: user.isOnline === false
+          }"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

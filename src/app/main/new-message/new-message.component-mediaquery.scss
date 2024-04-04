@@ -1,0 +1,36 @@
+@import "../../../styles.scss";
+
+@media screen and (max-width: 1110px) {
+  .newMessageContainer {
+    width: calc(100vw - 32px);
+    height: calc(100vh - 118px);
+
+    .head {
+      padding: 32px 32px 20px 32px;
+    }
+
+    .textBox {
+      padding: 45px 32px;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .newMessageContainer {
+    width: 100vw;
+    border-radius: 0;
+
+    .head {
+      padding: 32px 16px 20px 16px;
+    }
+
+    .textBox {
+      padding: 32px 16px;
+    }
+
+    .userSelection {
+      left: 16px;
+      max-width: calc(100vw - 32px);
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<div class="newMessageContainer">
+  <div class="head">
+    <div class="title">Neue Nachricht</div>
+    <input
+      #userInput
+      type="text"
+      [placeholder]="placeholderText"
+      (keyup)="onInputChange(userInput.value)"
+    />
+    <div class="userSelection" *ngIf="displayUser || displayChannels">
+      <div class="allUser" *ngIf="displayUser">
+        <div
+          class="singleUser"
+          *ngFor="let user of filteredUsers"
+          (click)="sendUserMessage(user.id, user.name)"
+        >
+          <img [src]="user.imgUrl" [alt]="'Image of ' + user.name" />
+          <div class="name">
+            {{ user.name }}
+          </div>
+          <span
+            *ngIf="
+              (this.userManagementService.activeUserId$ | async) === user.id
+            "
+            >&nbsp;(Du)</span
+          >
+          <div
+            class="onlineStatus"
+            [ngClass]="{
+              online: user.isOnline === true,
+              away: user.isOnline === false
+            }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="allChannel" *ngIf="displayChannels">
+        <div
+          class="singleChannel"
+          *ngFor="let channel of filteredChannel"
+          (click)="sendChannelMessage(channel.id, channel.name)"
+        >
+          #{{ channel.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="textBox">
+    <app-text-box
+      [messageType]="this.messageType"
+      [targetId]="this.targetId"
+      [placeholderText]="'Starte eine neue Nachricht'"
+    ></app-text-box>
+  </div>
+</div>

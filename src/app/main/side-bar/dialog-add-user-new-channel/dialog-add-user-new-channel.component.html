@@ -1,0 +1,124 @@
+<div class="dialogAddUserContainer" (click)="toggle()">
+  <form
+    class="dialogAddUserContent"
+    (click)="stopPropagation($event)"
+    (ngSubmit)="addUser()"
+    #form="ngForm"
+  >
+    <div class="mobileToggle" (click)="toggle()"></div>
+    <div class="titleAndIcon">
+      <div class="title">Leute hinzufügen</div>
+      <div class="icon">
+        <mat-icon
+          class="material-symbols-rounded"
+          fontIcon="close"
+          (click)="closeBoth()"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="userSelection">
+      <div>
+        <input
+          type="radio"
+          id="allMembers"
+          name="userSelection"
+          value="allMembers"
+          [(ngModel)]="userSelection"
+          checked
+        />
+        <label for="allMembers">
+          Alle Mitglieder von
+          <p class="highlight">&nbsp;OfficeTeam&nbsp;</p>
+          hinzufügen
+        </label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="specificPeople"
+          name="userSelection"
+          value="specificPeople"
+          [(ngModel)]="userSelection"
+        />
+        <label for="specificPeople">Bestimmte Leute hinzufügen</label>
+      </div>
+    </div>
+
+    <!-- <input
+      *ngIf="userSelection === 'specificPeople'"
+      class="addedUser"
+      type="text"
+      placeholder="Name eingeben"
+      [(ngModel)]="userInput"
+      (input)="filterUsers()"
+      name="userInput"
+
+      adjustTextareaHeight($event);
+    /> -->
+
+    <div
+      *ngIf="userSelection === 'specificPeople'"
+      class="textBoxContainer"
+      [class.focused]="inputFocused"
+      (click)="userInput.focus()"
+    >
+      <div *ngIf="selectedUsers.length > 0" class="allSelectesUsers">
+        <div *ngFor="let user of selectedUsers" class="singleSelectedUser">
+          <img [src]="user.imgUrl" [alt]="'Image of ' + user.name" />
+          <div>
+            <div class="name">{{ user.name }}</div>
+            <div class="removeUser">
+              <mat-icon
+                class="material-symbols-rounded"
+                fontIcon="close"
+                (click)="removeUser(user)"
+              ></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      <textarea
+        rows="1"
+        #userInput
+        name="userInput"
+        type="text"
+        [(ngModel)]="userInputModel"
+        placeholder="Name eingeben"
+        (input)="filterUsers()"
+        (focus)="onInputFocus()"
+        (blur)="onInputBlur()"
+      ></textarea>
+    </div>
+
+    <div
+      *ngIf="filteredUsers.length > 0 && userSelection === 'specificPeople'"
+      class="userSuggestions"
+    >
+      <div class="allUsers">
+        <div
+          class="singleUser"
+          *ngFor="let user of filteredUsers"
+          (click)="addSelectedUser(user)"
+        >
+          <div class="userImage">
+            <img [src]="user.imgUrl" [alt]="'Image of ' + user.name" />
+            <div
+              class="onlineStatus"
+              [ngClass]="{
+                online: user.isOnline === true,
+                away: user.isOnline === false
+              }"
+            ></div>
+          </div>
+          <div class="userName">
+            {{ user.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btnPrimary" type="submit" [disabled]="shouldDisableSubmit()">
+      Erstellen
+    </button>
+  </form>
+</div>

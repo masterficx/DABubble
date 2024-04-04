@@ -1,0 +1,69 @@
+<div class="dialogAddChannelContainer" (click)="toggle()">
+  <form
+    class="dialogAddChannelContent"
+    (click)="stopPropagation($event)"
+    (ngSubmit)="createChannel()"
+    #form="ngForm"
+  >
+    <div class="titleAndIcon">
+      <div class="title">Channel erstellen</div>
+      <div class="icon">
+        <mat-icon
+          class="material-symbols-rounded"
+          fontIcon="close"
+          (click)="toggle()"
+        ></mat-icon>
+      </div>
+    </div>
+
+    <p class="description">
+      Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
+      themenbezogen sein #marketing zum Beispiel.
+    </p>
+
+    <div class="setChannelName">
+      <div>Channel-Name</div>
+      <div
+        class="inputWithIcon"
+        [class.focused]="inputFocused"
+        (click)="channelName.focus()"
+      >
+        <mat-icon class="material-symbols-rounded" fontIcon="tag"></mat-icon>
+        <input
+          #channelName
+          name="channelName"
+          type="text"
+          [(ngModel)]="channelNameModel"
+          required
+          placeholder="z.B. Kooperationsprojekt"
+          (focus)="onInputFocus()"
+          (blur)="onInputBlur()"
+          (ngModelChange)="onChannelNameChange()"
+        />
+      </div>
+      <div *ngIf="channelNameExists" class="nameValidation">
+        Ein Kanal mit diesem Namen existiert bereits.
+      </div>
+      <div *ngIf="channelNameExistsNotMember" class="nameValidation">
+        Der Name wird bereits für einen dir nicht verfügbaren Channel verwendet
+      </div>
+    </div>
+
+    <div class="setChannelDescription">
+      <div>
+        Beschreibung&nbsp;
+        <p>(optional)</p>
+      </div>
+      <input
+        type="text"
+        placeholder="Dein Text hier"
+        name="channelDescription"
+        [(ngModel)]="channelDescriptionModel"
+      />
+    </div>
+
+    <button class="btnPrimary" [disabled]="!isChannelNameValid || !form.valid">
+      Erstellen
+    </button>
+  </form>
+</div>

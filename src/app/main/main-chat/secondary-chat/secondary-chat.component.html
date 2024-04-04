@@ -1,0 +1,109 @@
+<section *ngIf="!isLoading">
+  <div
+    class="closePicker"
+    *ngIf="emojiWindowOpen"
+    (click)="toggleEmojis()"
+  ></div>
+  <div class="chat-box">
+    <!-------------------------------------Chat Head-------------------------------------->
+    <div class="thread-head">
+      <div class="left-side-head">
+        <h3>Thread</h3>
+        <img src="/assets/img/tagPurple.svg" alt="Purple Hashtag" />
+        <p>{{channel?.name}}</p>
+      </div>
+      <button (click)="closeThread()" class="close-button"></button>
+    </div>
+    <!-----------------------------------Chat Head------------------------------------>
+    <!---------------------------------------Chat Content--------------------------------------->
+    <div #chatContent class="chat-content">
+      @if (currentUser !== firstThreadMessage?.createdBy) {
+      <div *ngIf="firstThreadMessage" class="user-message">
+        <!-- Thread Message -->
+        <img
+          class="profile-picture"
+          [src]="getUserProfileImageUrl(firstThreadMessage?.createdBy)"
+          alt=""
+        />
+        <div>
+          <div class="user-time">
+            <p>{{ getUserName(firstThreadMessage?.createdBy) }}</p>
+            <span>{{ firstThreadMessage?.creationDate | date : "HH:mm" }} Uhr</span>
+          </div>
+          <div *ngIf="firstThreadMessage?.message || firstThreadMessage?.imageUrl" class="thread-message">
+            <span>{{ firstThreadMessage?.message }}</span>
+            <div *ngIf="firstThreadMessage?.imageUrl" class="imgMessage">
+              <img [src]="firstThreadMessage?.imageUrl" alt="Image uploaded by {{ firstThreadMessage?.createdBy }}"/>
+              <div class="imgInteraction">
+                <div (click)="downloadImage(firstThreadMessage?.imageUrl)">
+                  <mat-icon class="material-symbols-rounded" fontIcon="download"></mat-icon>
+                </div>
+                <div (click)="openImage(firstThreadMessage?.imageUrl)">
+                  <mat-icon class="material-symbols-rounded" fontIcon="open_in_new"></mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <div *ngIf="firstThreadMessage" class="user-message own-message">
+        <img
+          class="profile-picture"
+          [src]="getUserProfileImageUrl(firstThreadMessage?.createdBy)"
+          alt=""
+        />
+        <div class="own-main-message-content">
+          <div class="user-time own-message">
+            <p>{{ getUserName(firstThreadMessage?.createdBy) }}</p>
+            <span
+              >{{ firstThreadMessage?.creationDate | date : "HH:mm" }} Uhr</span
+            >
+          </div>
+          <div *ngIf="firstThreadMessage?.message || firstThreadMessage?.imageUrl" class="thread-message own-message">
+            <span>{{ firstThreadMessage?.message }}</span>
+            <div *ngIf="firstThreadMessage?.imageUrl" class="imgMessage">
+              <img [src]="firstThreadMessage?.imageUrl" alt="Image uploaded by {{ firstThreadMessage?.createdBy }}"/>
+              <div class="imgInteraction">
+                <div (click)="downloadImage(firstThreadMessage?.imageUrl)">
+                  <mat-icon class="material-symbols-rounded" fontIcon="download"></mat-icon>
+                </div>
+                <div (click)="openImage(firstThreadMessage?.imageUrl)">
+                  <mat-icon class="material-symbols-rounded" fontIcon="open_in_new"></mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      }
+
+      <div class="answer-line-container">
+        <!-- Marker for seperate thread quiry to answers -->
+        <p>{{ threadMessages.length }} Antworten</p>
+        <div class="purple-line"></div>
+      </div>
+      @for (message of threadMessages; track $index) {
+      <!-------------------- Template of awnsers ------------------------>
+      <app-secondary-chat-messages
+        [channelMembers]="channelMembers"
+        [threadId]="selectedThreadId"
+        [messageId]="message.messageId"
+        [message]="message"
+        [currentUser]="currentUser"
+        [activeChannelId]="activeChannelId"
+      >
+      </app-secondary-chat-messages>
+      }
+    </div>
+    <!--------------------------------------Chat Content-------------------------------------->
+    <!--------------------------------------Input Contnent-------------------------------------->
+    <app-text-box
+      [messageType]="'threadMessage'"
+      [targetId]="selectedThreadId"
+      [placeholderText]="'Antworten...'"
+    ></app-text-box>
+    <!--------------------------------------Input Contnent-------------------------------------->
+  </div>
+</section>

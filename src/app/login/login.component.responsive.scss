@@ -1,0 +1,181 @@
+@media screen and (max-width: 650px) {
+    .login-main {
+        flex-direction: column;
+        gap: 30px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .start-animation-logo {
+        img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    .start-animation-container {
+        p {
+            font-size: 76px;
+        }
+    }
+
+    .login-form {
+        width: 398px !important;
+        height: unset;
+
+        form {
+            width: 398px !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+    }
+
+    .logo-container {
+        position: unset;
+    }
+
+    .create-account-container {
+        position: unset;
+    }
+
+    .error-message-container {
+        margin-bottom: 10px;
+        width: 358px;
+    }
+
+    .login-hint {
+        width: 358px;
+        font-size: 17px;
+        margin-top: 0px;
+    }
+
+    .login-email-input {
+        width: 358px !important;
+    }
+
+    .login-password-input {
+        width: 358px !important;
+    }
+
+    .login-input-main {
+        width: 358px;
+    }
+
+    .login-with-google-btn {
+        width: 358px;
+        margin-bottom: 30px;
+
+        img {
+            height: 34px;
+            width: 34px;
+        }
+    }
+
+
+
+    .or-container {
+        width: 358px !important;
+        margin-bottom: 0px;
+
+        img {
+            width: 139px;
+        }
+
+        p {
+            text-align: center;
+            width: 80px;
+            font-size: 17px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .lower-links-container {
+        display: none;
+    }
+
+    .create-account-container {
+        align-items: center;
+        top: unset;
+        bottom: 70px !important;
+        right: calc(50% - 97px);
+    }
+
+    .login-btns-container {
+        margin-bottom: 25px;
+    }
+
+    .logo-container {
+        top: 70px;
+        left: calc(50% - 100px);
+    }
+
+    .bad-login-main {
+        padding: 20px;
+        font-size: 21px;
+        line-height: 30px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .login-main {
+        width: 100vw;
+        height: auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .start-animation-logo {
+        img {
+            width: 90px;
+            height: 90px;
+        }
+    }
+
+    .start-animation-container{
+        p{
+            font-size: 35px;
+        }
+    }
+
+    .login-form {
+        width: 100% !important;
+        border-radius: unset;
+
+        form {
+            width: 100% !important;
+        }
+    }
+
+    .login-input-main {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-email-input,
+    .login-with-google-btn,
+    .error-message-container,
+    .login-password-input,
+    .login-hint {
+        width: calc(100% - 20px) !important;
+    }
+
+    .or-container{
+        width: calc(100% - 20px) !important;
+        img{
+            width: calc((100% - 70px)/2);
+        }
+    }
+
+    .login-btns-container{
+        gap: 10px;
+    }
+
+}

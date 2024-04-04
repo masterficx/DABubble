@@ -1,0 +1,683 @@
+@import "../../../../styles.scss";
+
+.messageContainer, .messageContainerOwn {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 1rem 45px 1rem 45px;
+
+    &:hover {
+        background-color: $bgColor;
+    }
+}
+
+.messageContainer > app-reaction-emoji-input {
+    position: absolute;
+    right: 395px;
+    top: 20px;
+    height: 46px;
+    z-index: 10;
+}
+
+.messageContainerOwn > app-reaction-emoji-input {
+    position: absolute;
+    left: 45px;
+    top: 15px;
+    height: 46px;
+    z-index: 10;
+}
+
+.reactionOwnMessages {
+    position: absolute;
+    left: 45px;
+    top: 20px;
+    height: 46px;
+    z-index: 10;
+}
+
+.messageContainerOwn{
+    justify-content: flex-end;
+}
+
+
+.messageContainer:hover > .mainMessage > div:nth-of-type(2),
+.messageContainerOwn:hover > .mainMessageOwn > div:nth-of-type(2) {
+    background-color: white;
+}
+
+.messageContainer:hover > .mainMessage > div:nth-of-type(2) .imgMessage,
+.messageContainerOwn:hover > .mainMessageOwn > div:nth-of-type(2) .imgMessage {
+    border: 4px solid $bgColor;
+}
+
+.messageContainer:hover > .mainMessage > div:nth-of-type(3) > div:last-of-type,
+.messageContainerOwn:hover > .mainMessage > div:nth-of-type(3) > div:last-of-type {
+    color: black;
+}
+
+.messageProfileIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+
+    > img {
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+    }
+}
+
+.mainMessage {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+
+    > div:first-of-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        > div:first-of-type{
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        > div:last-of-type{
+            font-size: 14px;
+            color: $textGray;
+        }
+    }
+
+    > div:nth-of-type(2) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 1rem;
+        border-radius: 0px 20px 20px 20px;
+        padding: 15px;
+        background-color: $bgColor;
+
+        .mainMessageMessage {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .imgMessage {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white;
+            border-radius: 10px;
+            > img {
+             min-height: 100px;
+             min-width: 100px;
+             max-height: 200px;
+             max-width: 200px;
+             border-radius: 10px;
+             object-fit: contain;
+             } 
+     
+             &:hover .imgInteraction {
+                 display: flex;
+                 bottom: 0;
+             }
+         }
+    }
+}
+
+.imgInteraction {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 5px;
+    border-radius: 0 0 10px 10px;
+    background-color: rgb(255, 255, 255, 0.8);
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    
+      mat-icon {
+        padding: 4px;
+        border-radius: 50%;
+        color: $textGray;
+
+        &:hover {
+          background-color: $bgColor;
+          color: $purple3;
+          font-variation-settings: "wght" 600;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+
+.mainMessageOwn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+
+    > div:first-of-type {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        > div:first-of-type{
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        > div:last-of-type{
+            font-size: 14px;
+            color: $textGray;
+        }
+    }
+
+    > div:nth-of-type(2) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 1rem;
+        border-radius: 20px 0 20px 20px;
+        padding: 15px;
+        background-color: $bgColor;
+
+        .mainMessageMessage {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .imgMessage {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white;
+            border-radius: 10px;
+            > img {
+             min-height: 100px;
+             min-width: 100px;
+             max-height: 200px;
+             max-width: 200px;
+             border-radius: 10px;
+             } 
+     
+             &:hover .imgInteraction {
+                 display: flex;
+                 bottom: 0;
+             }
+         }
+    }
+}
+
+.mainMessageOwn .mainThreadReactions{
+    justify-content: flex-end;
+}
+
+
+.mainMessageThreads {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+
+    > div:first-of-type {
+        font-size: 18px;
+        font-weight: 400;
+        color: $purple3;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    > div:last-of-type {
+        font-size: 14px;
+        font-weight: 400;
+        color: $textGray;    
+    }
+}
+
+.mainMessageThreadsOwn {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+
+    > div:first-of-type {
+        font-size: 14px;
+        color: $textGray;    
+    }
+
+    > div:last-of-type {
+        font-size: 18px;
+        color: $purple3;
+        cursor: pointer;
+    }
+}
+
+/* ================================== REACTIONS ================================== */
+.mainThreadReactions,
+.mainThreadReactionsOwn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    cursor: pointer;
+    &:hover {
+      color: $purple3;
+    }
+
+    > div:first-of-type {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: white;
+        &:hover {
+            cursor: pointer;
+            color: $purple2;
+        }
+
+    }
+
+    > .reactionContainer {
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        gap: 6px;
+        border-radius: 20px;
+        border: 1px solid $lightPurple;
+        padding: 5px 10px 5px 10px;
+        background-color: white;
+        &:hover {
+            cursor: pointer;
+            border-color: $purple2;
+        }
+
+        &:hover .reactionHoverBubble {
+            display: block;
+        }
+
+        .ractionEmoji {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ractionCount {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            > div {
+                font-weight: 16px;
+
+            }
+        }
+
+        .reactionHoverBubble, 
+        .reactionHoverBubbleOwn {
+            position: absolute;
+            bottom: 45px;
+            left: 30px;
+            display: none;
+            width: 158px;
+            border-radius: 30px 30px 30px 0px;
+            padding: 15px 10px 15px 10px;
+            background-color: $purple1;
+            z-index: 2;
+            > div {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            > div:nth-of-type(2) {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+
+                > div {
+                    color: white;
+                    font-weight: 700;
+                    font-size: 18px;    
+                }
+            }
+            
+            > div:last-of-type {
+                color: white;
+                font-size: 16px;
+                font-weight: 400;
+            }
+        }
+
+        .reactionHoverBubbleOwn {
+            left: -150px;
+            border-radius: 30px 30px 0px 30px;
+        }
+    }
+
+    .reactionContainerMoreEmojisOther {
+        position: absolute;
+        left: 0px;
+        bottom: -30px;
+        height: 46px;
+        z-index: 10;
+    }
+
+    .reactionContainerMoreEmojisOwn{
+        position: absolute;
+        right: 495px;
+        bottom: -15px;
+        height: 46px;
+        z-index: 10; 
+    }
+}
+
+.mainThreadReactionsOwn {
+    flex-direction: row-reverse;
+}
+
+/* ================================== TOOLBAR ================================== */
+.toolBar, .toolBarOwn {
+    position: absolute;
+    right: -80px;
+    top: -25px;
+    opacity: 0;
+    height: 46px;
+    border-radius: 25px 25px 0px 25px;
+    border: 1px solid $lightPurple;
+    padding: 3px 15px 3px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    gap: 5px;
+    transition: all 125ms ease-in-out;
+
+    > div {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;    
+        cursor: pointer;
+        &:hover {
+            background-color: $bgColor;
+        }
+    }
+}
+
+.toolBarOwn{
+    right: unset;
+    left: -80px;
+    border-radius: 25px 25px 25px 0px;
+}
+
+.messageContainer:hover > .toolBar {
+    opacity: 1;
+    right: 45px;
+}
+
+.messageContainerOwn:hover > .toolBarOwn {
+    left: 45px;
+    opacity: 1;
+}
+
+/* =============== EDIT MESSAGE =============== */
+.editMessagePopupBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.editMessagePopup {
+    position: absolute;
+    top: 17px;
+    left: 200px;
+    height: 67px;
+    border-radius: 0px 30px 30px 30px;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 0 6px 14px 0 rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+
+    > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+        padding: 10px 20px 10px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        &:hover {
+            background-color: $bgColor;
+        }
+
+        &:hover > div {
+            font-weight: bold;
+            color: $purple3;
+        }
+    
+        > div {
+            font-weight: 500;
+            font-size: 20px;
+        }
+    }
+}
+
+.messageContainerOwnEdit {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 1rem 45px 1rem 145px;
+    background-color: $bgColor;
+}
+
+.mainMessageOwnEdit {
+    width: 100%;
+    background-color: white;
+    border: 1px solid $lightPurple;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+
+    > textarea {
+        height: 150px;
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        overflow: hidden;
+        resize: none;
+    }
+
+    > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        > div:first-of-type {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            &:hover {
+                background-color: $bgColor;
+            }
+            &:hover span {
+                color: $purple2;
+                font-weight: bold;
+            }
+        }
+
+        > div:last-of-type {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+
+            > button {
+                padding: 12px 25px 12px 25px;
+                border-radius: 50px;
+                border: 1px solid $purple2;
+                background-color: white;
+                color: $purple2;
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+                &:hover {
+                    background-color: $bgColor;
+                }
+            }
+            
+            >button:last-of-type {
+                background-color: $purple2;
+                color: white;
+                &:hover {
+                    background-color: $bgColor;
+                    color: $purple2;
+                }
+            }
+        }
+    }
+}
+
+/* =========================== RESPONSIVENESS =========================== */
+@media(max-width: 720px) {
+    .messageContainer > .mainMessage > div:nth-of-type(2) > .messageDocImg,
+    .messageContainerOwn > .mainMessageOwn > div:nth-of-type(2) > .messageDocImg  {
+        > img {
+            max-height: 150px;
+            max-width: 150px;
+        }
+    }
+
+    .editMessagePopup {
+        left: 120px;
+    }
+}
+
+@media(max-width: 500px) {
+    .editMessagePopup {
+        left: 90px;
+    }
+    .messageProfileIcon > img {
+            height: 50px;
+            width: 50px;
+    }  
+
+    .mainMessage > div:nth-of-type(2) > div:first-of-type,
+    .mainMessageOwn > div:nth-of-type(2) > div:first-of-type {
+            font-size: 17px;
+    }
+
+    .messageContainer, 
+    .messageContainerOwn {
+        gap: 10px;
+        padding: 1rem;
+    }
+
+    .mainThreadReactions,
+    .mainThreadReactionsOwn {
+        > .reactionContainer {
+            &:hover .reactionHoverBubble {
+                display: none;
+            }
+        }
+    }
+
+    .mainMessageThreads {
+        gap: 10px;
+    }
+
+    .messageContainer:hover > .toolBar {
+        opacity: 1;
+        right: 16px;
+    }
+    
+    .messageContainerOwn:hover > .toolBarOwn {
+        left: 16px;
+        opacity: 1;
+    }
+
+    .messageContainer > .mainMessage > div:nth-of-type(2) > .imgMessage,
+    .messageContainerOwn > .mainMessageOwn > div:nth-of-type(2) > .imgMessage  {
+        > img {
+            max-height: 100px;
+            max-width: 100px;
+        }
+    }
+
+    .messageContainer > app-reaction-emoji-input {
+        right: 305px;
+    }
+    
+    .messageContainerOwn > app-reaction-emoji-input {
+        left: 15px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

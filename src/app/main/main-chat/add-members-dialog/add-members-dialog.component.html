@@ -1,0 +1,43 @@
+<div class="addMembersDialog" [class.addMembersDialogMobile]="addMembersMobileView" (click)="doNotClose($event); closeUserList()">
+    <div class="mobileViewLine" *ngIf="addMembersMobileView">
+      <div></div>
+    </div>
+
+    <div class="header">
+        <div>Leute hinzufügen</div>
+        <div (click)="closeDialog()">
+            <span class="material-symbols-outlined">close</span>
+        </div>
+    </div>
+
+    <div class="channelName"># {{channelData?.name}}</div>
+
+    <div class="addUserInputContainer" [class.focusedBorder]="inputFocus" (click)="doNotClose($event)">
+      <div class="addUserInputSubContainer">
+        <div class="chipContainer">
+            <div class="newUserToAdd" *ngFor="let userToAdd of newUsersToAdd; let i = index">
+              <img [src]="userToAdd.imgUrl">
+              <div>{{userToAdd?.userName}}</div>
+              <span (click)="removeAddedUser(userToAdd, i)" class="material-symbols-outlined">close</span>
+            </div>
+        </div>
+        <input class="userSearchInput" type="text" autocomplete="off" name="search" (ngModelChange)="searchKey($event)" [(ngModel)]="searchText" placeholder="Name eingeben" (focus)="showUserList()">
+      </div>
+      <div class="userList" *ngIf="inputFocus">
+        <div class="userSubList">
+          @for (filteredUser of filteredUserList; track $index) {
+            <div (click)="addUser(filteredUser)">
+              <div>
+                <img [src]="filteredUser?.imgUrl">
+                <div [ngStyle]="{'background-color': filteredUser.isOnline ? '#92c83e' : '#686868' }"></div>
+              </div>
+              <div>{{filteredUser?.userName}}</div>
+            </div>
+          }
+       </div>
+      </div>
+    </div>
+    <div class="addButton" (click)="addUsers()">
+        <div>Hinzufügen</div>
+    </div>
+</div>

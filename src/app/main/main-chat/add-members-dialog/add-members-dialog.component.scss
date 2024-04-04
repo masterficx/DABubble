@@ -1,0 +1,258 @@
+
+@import "../../../../styles.scss";
+
+* {
+    box-sizing: border-box;
+}
+
+.mat-mdc-form-field-infix {
+    background-color: white!important;
+}
+
+.addMembersDialog {
+    border-radius: 30px 0 30px 30px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 10;
+
+    > div {
+        width: 100%;
+    }
+
+    > .mobileViewLine {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > div {
+            width: 62px;
+            height: 6px;
+            border-radius: 5px;
+            background-color: rgba(217,217,217,1);  
+        }
+    }
+
+    > .header {
+        font-weight: bold;
+        font-size: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        > div:last-of-type {
+            height: 40px;
+            width: 40px;    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            &:hover {
+                background-color: $bgColor;
+            }
+
+            &:hover span {
+                color: $purple3;
+            }
+    
+            > span {
+                font-size: 24px;
+            }
+        }
+    }
+
+    > .channelName {
+        font-size: 18px;
+        color: rgba(121, 126, 243, 1);
+    }
+
+    > .addButton {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        > div {
+            width: auto;
+            background-color: rgba(104, 104, 104, 1);
+            padding: 12px 25px 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            color: white;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.addMembersDialogMobile {
+    height: 100%;
+    border-radius: 30px 30px 0px 0px;
+    padding: 30px 16px 100px 16px;
+    box-shadow: 0  -3px 10px 0 rgba(0, 0, 0, 0.2);
+    justify-content: flex-start;
+}
+
+.addUserInputContainer {
+    width: 100%;
+    position: relative;
+    border: 1px solid $lightPurple;
+    border-radius: 30px;
+    padding: 15px 20px 15px 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &:hover {
+        border-color: $purple3;
+        cursor: pointer;
+    }
+
+    input:hover {
+        cursor: pointer;
+    }
+} 
+
+.addUserInputSubContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chipContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.newUserToAdd{
+    border-radius: 35px;
+    padding: 3px 10px 3px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    background-color: $bgColor;
+    cursor: pointer;
+
+    
+    > img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+    
+    > div {
+        white-space: nowrap;
+    }
+
+    > span:hover {
+        font-weight: bold;
+        color: $purple3;
+    }
+}
+
+.userSearchInput {
+    width: 100%;
+    min-width: 150px;
+    font-size: 18px;
+    outline: none;
+    border: none;
+}
+
+.focusedBorder{
+    border-color: $purple3;
+}
+
+.userList {
+    position: absolute;
+    bottom: -225px;
+    left: 20px;
+    width: 300px;
+    height: 220px;
+    border-radius: 0px 20px 20px 20px;
+    border: 1px solid $lightPurple;
+    padding: 20px 25px 20px 25px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+    background-color: white;
+    overflow: hidden;
+    cursor: unset!important;
+}
+
+.userSubList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+
+
+    > div {
+        width: 100%;
+        padding: 4px 10px 4px 10px;
+        border-radius: 35px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        &:hover {
+            background-color: $bgColor;
+        }
+
+        > div:first-of-type{
+            position: relative;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+
+            > img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+    
+            > div {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                border: 2px solid white;
+            }
+        }
+    }
+}
+
+.cdk-overlay-pane{
+    border-radius: 0 30px 30px 30px!important;
+}
+
+/* =========================== RESPONSIVENESS =========================== */
+@media(max-width: 500px) {
+    .userList {
+        width: 268px;
+        left: 0;
+    }   
+
+    .addMembersDialog {
+        padding: 20px;
+    }
+}

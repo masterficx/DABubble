@@ -1,0 +1,110 @@
+<div class="sign-up-main">
+  <div class="logo-container" [class.m-top-30]="addTheUpperMargin">
+    <img src="./assets/img/Logo.png" />
+    <p>DA Bubble</p>
+  </div>
+
+  <div *ngIf="first" class="sign-up-form-container">
+    <h1>Konto erstellen</h1>
+    <button class="go-back-to-login-btn" (click)="goBackToLogin()"></button>
+    <p class="sign-up-hint">
+      Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+      DABubble-Konto.
+    </p>
+    <form class="sign-up-form" [formGroup]="registerForm">
+      <input required type="text" class="sign-up-name-input" name="name" id="sign_up_name"
+        placeholder="Name und Nachname" formControlName="nameAndSurname" (focus)="showNameAndUsernameErrorDiv = true"/>
+      <div class="error-message-container" [class.visible]="showNameAndUsernameErrorDiv">
+        <mat-error *ngIf="registerForm.controls.nameAndSurname.invalid">
+          {{ checkErrors('nameAndSurname') }}
+        </mat-error>
+      </div>
+      <input required type="email" class="sign-up-email-input" name="email" id="email"
+        placeholder="beispielname@email.com" formControlName="email" (focus)="showEmailErrorDiv = true" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+      <div class="error-message-container" [class.visible]="showEmailErrorDiv">
+        <mat-error *ngIf="registerForm.controls.email.invalid">
+          {{ checkErrors('email') }}
+        </mat-error>
+      </div>
+      <div style="position: relative; width: calc(100% - 20px) !important">
+        <input required [type]="type" class="sign-up-password-input" name="password" id="sign_up_password"
+          placeholder="Passwort" formControlName="password" (focus)="showPasswordErrorDiv = true"/>
+        <span (click)="togglePasswordVisibility()" class="the-eye"
+          [ngClass]="{'visibility_on': isText, 'visibility_off': !isText }"></span>
+      </div>
+      <div class="error-message-container" [class.visible]="showPasswordErrorDiv">
+        <mat-error *ngIf="registerForm.controls.password.invalid">
+          {{ checkErrors('password') }}
+        </mat-error>
+      </div>
+      <div class="privacy-policy-container">
+        <label>
+          <input type="checkbox" name="checkbox" id="checkbox1" formControlName="checkbox" (focus)="showCheckboxErrorDiv = true"/>
+        </label>
+        <p>Ich stimme der<a routerLink="/privacy-policy">Datenschutzerklärung</a>zu</p>
+      </div>
+      <div class="error-message-container" [class.visible]="showCheckboxErrorDiv">
+        <mat-error *ngIf="registerForm.controls.checkbox.invalid">
+          {{ checkErrors('checkbox') }}
+        </mat-error>
+      </div>
+    </form>
+    <div class="sign-up-btns-container">
+      <button [disabled]="!registerForm.valid" class="next-btn" [class.btn-disabled]="!registerForm.valid"
+        (click)="goToAvatarChoice()">
+        Weiter
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="second" class="picture-choice-container">
+    <h1 class="the-title">Wähle deinen Avatar</h1>
+    <button class="go-back-to-login-btn" (click)="goBackToFirst()"></button>
+
+    <img class="chosen-profile-pic" [src]="imgUrl" />
+
+    <div class="picture-choice-info">
+      <div>
+        <p class="p1">{{ registerForm.value.nameAndSurname }}</p>
+        <p class="p2">Aus der Liste wählen</p>
+      </div>
+      <div class="generic-profile-pic-list">
+        <img (click)="chooseAvatar(1)" src="/assets/img/userImages/userImage1.svg" />
+        <img (click)="chooseAvatar(2)" src="/assets/img/userImages/userImage2.svg" />
+        <img (click)="chooseAvatar(3)" src="/assets/img/userImages/userImage3.svg" />
+        <img (click)="chooseAvatar(4)" src="/assets/img/userImages/userImage4.svg" />
+        <img (click)="chooseAvatar(5)" src="/assets/img/userImages/userImage5.svg" />
+        <img (click)="chooseAvatar(6)" src="/assets/img/userImages/userImage6.svg" />
+      </div>
+    </div>
+
+    <div class="personal-pic-upload-container">
+      <p>eigenes Bild verwenden</p>
+      <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload style="display: none" />
+      <button *ngIf="!isCustomImage" (click)="fileUpload.click()">
+        Datei hochladen
+      </button>
+      <button *ngIf="isCustomImage" (click)="removeFileUpload()">
+        Bild entfernen
+      </button>
+    </div>
+
+    <div class="sign-up-btns-container">
+      <button class="next-btn" [disabled]="person == 'zero' && !isCustomImage"
+        [class.btn-disabled]="person == 'zero' && !isCustomImage" (click)="signUp()">
+        Weiter
+      </button>
+    </div>
+  </div>
+
+  <div class="lower-links-container">
+    <a routerLink="/imprint">Impressum</a>
+    <a routerLink="/privacy-policy">Datenschutz</a>
+  </div>
+</div>
+
+<div *ngIf="userCreationSuccess" class="successfull-sign-up-overlay">
+  <div class="successfull-sign-up-main">
+    <p>Konto erfolgreich erstellt!</p>
+  </div>
+</div>

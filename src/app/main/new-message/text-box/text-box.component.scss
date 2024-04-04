@@ -1,0 +1,304 @@
+@import "../../../../styles.scss";
+
+* {
+  scrollbar-width: thin !important;
+}
+
+.textBoxContainer {
+  width: 100%;
+  height: 100%;
+  border: 1px solid $lightPurple;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+
+  &:hover {
+    cursor: text;
+    border: 1px solid $purple2;
+  }
+
+  &.focused {
+    border: 1px solid $purple3;
+  }
+
+  ::placeholder {
+    color: $textGray;
+    opacity: 1;
+  }
+
+  textarea {
+    width: 100%;
+    max-width: 100%;
+    overflow-y: scroll;
+    resize: none;
+    font-size: 18px;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .bottomIcons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .addElements {
+      display: flex;
+      gap: 5px;
+
+      div {
+        /*         background-color: $lightPurple;
+        width: 1px;
+ */
+        height: 100%;
+      }
+
+      mat-icon {
+        padding: 8px;
+        border-radius: 50%;
+        color: $textGray;
+
+        &:hover {
+          background-color: $bgColor;
+          color: $purple3;
+          font-variation-settings: "wght" 600;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .send {
+      mat-icon {
+        padding: 8px;
+        border-radius: 50%;
+        color: $purple2;
+        font-variation-settings: "FILL" 1;
+
+        .mat-icon.disabled {
+          cursor: not-allowed;
+        }
+
+        &:not(.disabled) {
+          color: $purple1;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .closePicker {
+    position: fixed;
+    inset: 0;
+  }
+
+  emoji-mart {
+    position: absolute;
+    bottom: 130px;
+    left: 40px;
+    cursor: pointer;
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  .imagePreview {
+    height: 120px;
+    width: 120px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 8px;
+    align-self: flex-start;
+
+    .deleteUpload {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      width: 32px;
+      height: 32px;
+      background-color: $bgColor;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 3px solid white;
+      box-sizing: border-box;
+
+      &:hover {
+        cursor: pointer;
+        color: $purple3;
+
+        mat-icon {
+          font-variation-settings: "wght" 600;
+        }
+      }
+    }
+  }
+
+  .mentionUser {
+    position: absolute;
+    bottom: 130px;
+    left: 40px;
+    background-color: white;
+    width: 320px;
+    height: 240px;
+    border-radius: 30px 30px 30px 0;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .allUser {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      gap: 8px;
+
+      .singleUser {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 2px 16px;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: fit-content;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+
+        .name {
+          font-size: 18px;
+        }
+
+        .onlineStatus {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+
+          box-sizing: border-box;
+
+          &.online {
+            border: 2px solid $onlineGreen;
+            background-color: $onlineGreen;
+          }
+
+          &.away {
+            border: 2px solid $textGray;
+          }
+        }
+      }
+    }
+  }
+
+  .userSelection {
+    position: absolute;
+    bottom: 150px;
+    left: 20px;
+    background-color: white;
+    width: 320px;
+    max-height: 240px;
+    border-radius: 30px 30px 30px 0;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .allUser {
+      max-height: 200px;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      gap: 8px;
+
+      .singleUser {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 2px 16px;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: fit-content;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+
+        .name {
+          font-size: 18px;
+        }
+
+        .onlineStatus {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+
+          box-sizing: border-box;
+
+          &.online {
+            border: 2px solid $onlineGreen;
+            background-color: $onlineGreen;
+          }
+
+          &.away {
+            border: 2px solid $textGray;
+          }
+        }
+      }
+    }
+
+    .allChannel {
+      max-height: 200px;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      gap: 8px;
+
+      .singleChannel {
+        padding: 2px 16px;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: fit-content;
+        font-size: 18px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $bgColor;
+        }
+      }
+    }
+  }
+}

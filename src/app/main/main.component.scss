@@ -1,0 +1,73 @@
+$bg-color: #eceefe;
+
+app-main-chat {
+  width: 100%;
+}
+
+app-secondary-chat {
+  height: 100%;
+}
+
+.main-content {
+  display: flex;
+  gap: 20px;
+  margin: 0 20px;
+  box-sizing: border-box;
+  transition: margin 0.2s ease;
+}
+
+app-main-chat {
+  height: calc(100vh - 120px);
+  width: 100%;
+}
+
+app-side-bar,
+app-secondary-chat,
+app-new-message {
+  height: calc(100vh - 120px);
+}
+
+//////////////////////// Secondary Animations ////////////////////////
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.secondary-chat-visible {
+  display: block !important;
+  animation: slideInFromRight 200ms ease-in-out;
+}
+
+.secondary-chat-hidden {
+  display: none;
+}
+
+//////////////////////// @Media Querys ////////////////////////
+@media screen and (max-width: 1110px) {
+  .main-content {
+    margin: 0 16px;
+  }
+
+  app-secondary-chat,
+  app-new-message,
+  app-main-chat {
+    height: calc(100vh - 102px);
+  }
+  
+  app-side-bar {
+    height: calc(100vh - 184px);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .main-content {
+    margin: 0px;
+  }
+}

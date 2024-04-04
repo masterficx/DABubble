@@ -1,0 +1,186 @@
+<div class="sideBarContainer">
+  <div class="sideBarContent" *ngIf="workspaceVisible">
+    <div class="sideBardHeader">
+      <div class="serverName">
+        <img src="../../assets/img/workspaceLogo.png" alt="Workspace Logo" />
+        <div>Code learning</div>
+      </div>
+      <div class="newMessage" (click)="openNewMessage()">
+        <mat-icon
+          class="material-symbols-outlined"
+          fontIcon="edit_square"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="sideBarBody">
+      <div class="sidebarSectionContainer">
+        <div class="sidebarSectionHead">
+          <div
+            class="sidebarSectionHeadRight"
+            (click)="toggleSection('channels')"
+          >
+            <div>
+              <div class="dropDown">
+                <mat-icon
+                  class="material-symbols-rounded"
+                  fontIcon="arrow_drop_down"
+                  [ngClass]="{ 'rotate-icon': !channelsVisible }"
+                ></mat-icon>
+              </div>
+            </div>
+            <div class="sectionTitle">
+              <div>
+                <mat-icon
+                  class="material-symbols-outlined"
+                  fontIcon="workspaces"
+                ></mat-icon>
+              </div>
+              <div>Channels</div>
+            </div>
+          </div>
+
+          <div
+            class="sidebarSectionHeadLeft"
+            (click)="toggleAddChannelDialog()"
+          >
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="add"
+            ></mat-icon>
+          </div>
+        </div>
+
+        <div class="allChannels" *ngIf="channelsVisible">
+          <div
+            class="singleChannel"
+            *ngFor="let channel of channels$ | async"
+            (click)="setActiveChannel(channel.id)"
+            [ngClass]="{ active: getActiveChannelId() === channel.id }"
+          >
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="tag"
+            ></mat-icon>
+            <div>{{ channel.data.name }}</div>
+          </div>
+        </div>
+
+        <div
+          class="addChannel"
+          *ngIf="channelsVisible"
+          (click)="toggleAddChannelDialog()"
+        >
+          <mat-icon
+            class="material-symbols-rounded"
+            fontIcon="add_circle"
+          ></mat-icon>
+
+          <div>Channel hinzufügen</div>
+        </div>
+      </div>
+      <div class="sidebarSectionContainer">
+        <div class="sidebarSectionHead" (click)="toggleSection('users')">
+          <div class="sidebarSectionHeadRight">
+            <div>
+              <div class="dropDown">
+                <mat-icon
+                  class="material-symbols-rounded"
+                  fontIcon="arrow_drop_down"
+                  [ngClass]="{ 'rotate-icon': !usersVisible }"
+                ></mat-icon>
+              </div>
+            </div>
+            <div class="sectionTitle">
+              <div>
+                <mat-icon
+                  class="material-symbols-outlined"
+                  fontIcon="account_circle"
+                ></mat-icon>
+              </div>
+              <div>Direktnachrichten</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="allUsers" *ngIf="usersVisible">
+          <div
+            class="singleUser"
+            *ngFor="let user of filteredUsers$ | async"
+            (click)="setSelectedUser(user.id)"
+            [ngClass]="{ active: getSelectedUserId() === user.id }"
+          >
+            <div class="userImage">
+              <img
+                [src]="user.data.imgUrl"
+                [alt]="'Image of ' + user.data.name"
+              />
+              <div
+                class="onlineStatus"
+                [ngClass]="{
+                  online: user.data.isOnline === true,
+                  away: user.data.isOnline === false
+                }"
+              ></div>
+            </div>
+            <div class="userName">
+              {{ user.data.name }}
+              <span
+                *ngIf="
+                  (this.userManagementService.activeUserId$ | async) === user.id
+                "
+                >&nbsp;(Du)</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div></div>
+      </div>
+    </div>
+    <div class="mobileNewMessage" (click)="openNewMessage()">
+      <mat-icon
+        class="material-symbols-outlined"
+        fontIcon="edit_square"
+      ></mat-icon>
+    </div>
+  </div>
+  <div class="toggleSideBar">
+    <div *ngIf="workspaceVisible" (click)="toggleSection('workspace')">
+      Workspace-Menü schließen
+      <svg class="svg-hide-worspace">
+        <use
+          xlink:href="./assets/img/toggleWorkspaceSymbols.svg#svg-hide-worspace"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        ></use>
+      </svg>
+    </div>
+    <div *ngIf="!workspaceVisible" (click)="toggleSection('workspace')">
+      Workspace-Menü öffnen
+      <svg class="svg-show-worspace">
+        <use
+          xlink:href="./assets/img/toggleWorkspaceSymbols.svg#svg-show-worspace"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        ></use>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<app-dialog-add-channel
+  *ngIf="dialogAddChannelVisible"
+  [isVisible]="dialogAddChannelVisible"
+  (toggleVisibility)="toggleAddChannelDialog()"
+  (onChannelCreation)="handleChannelCreationAndToggleDialog($event)"
+>
+  >
+</app-dialog-add-channel>
+
+<app-dialog-add-user-new-channel
+  *ngIf="dialogAddUserVisible && newChannelId"
+  [isVisibleUser]="dialogAddUserVisible"
+  [newChannelId]="newChannelId"
+  (toggleVisibility)="toggleAddUserDialog()"
+  (toggleVisibilityChannel)="hideAddChannelDialog()"
+  (usersToAdd)="onUsersToAdd($event)"
+>
+</app-dialog-add-user-new-channel>

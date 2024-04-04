@@ -1,0 +1,19 @@
+@media screen and (max-width: 1110px) {
+  .dialogAddChannelContainer {
+    .dialogAddChannelContent {
+      max-width: calc(100vw - 32px);
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dialogAddChannelContainer {
+    .dialogAddChannelContent {
+      max-width: none;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      padding: 32px 16px;
+    }
+  }
+}

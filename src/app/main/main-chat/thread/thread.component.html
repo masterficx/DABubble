@@ -1,0 +1,245 @@
+@if(currentUser !== thread?.userId){
+    <!-- ========================= Template Other Messages ========================= -->
+        <!-- ========================= Template Other Messages - CHANNEL/DM ========================= -->
+        <div class="messageContainer">
+            <div class="messageProfileIcon">
+                <img *ngIf="activeChannelId" [src]="thread?.imgUrl">
+                <img *ngIf="activeDmUser" [src]="acitveDmUserData?.imgUrl">
+            </div>
+            <div class="mainMessage">
+                <div>
+                    <div>{{thread?.createdBy}}</div>
+                    <div>{{thread?.time}} Uhr</div>
+                </div>
+                <div>
+                    <div class="mainMessageMessage">
+                        {{thread?.message}}
+                    </div>
+                    <div *ngIf="thread?.imageUrl" class="imgMessage">
+                        <img [src]="thread?.imageUrl" alt="Image uploaded by {{ thread?.createdBy }}"/>
+                        <div class="imgInteraction">
+                          <div (click)="downloadImage(thread?.imageUrl)">
+                            <mat-icon class="material-symbols-rounded" fontIcon="download"></mat-icon>
+                          </div>
+                          <div (click)="openImage(thread?.imageUrl)">
+                            <mat-icon class="material-symbols-rounded" fontIcon="open_in_new"></mat-icon>
+                          </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="mainMessageThreads" *ngIf="messageCount > 0">
+                    <div (click)="openThread(thread?.threadId)">{{messageCount}} {{answers}}</div>
+                    <div>Letzte Antwort {{lastAnswer}}</div>
+                </div>
+
+                <!-- ================ REACTION CONTAINER ================ -->
+                @if(reactions?.length !== 0) {
+                    <div class="mainThreadReactions">
+                        <div (click)="openMoreEmojis()">
+                            <span class="material-symbols-outlined">add_reaction</span>
+                        </div>
+                        @for (reaction of reactions | slice:0:3; track $index) {
+                            <div class="reactionContainer" (click)="saveReaction(reaction?.reaction, currentUser)">
+                                <div class="ractionEmoji">
+                                    <span>{{reaction?.reaction}}</span>
+                                </div>
+                                <div class="ractionCount">
+                                    <div>{{reaction?.count}}</div>
+                                </div>
+                                <div class="reactionHoverBubble">
+                                    <div class="ractionEmoji">
+                                        <span>{{reaction?.reaction}}</span>
+                                    </div>      
+                                    @if (reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length == 1) {
+                                        <div>
+                                            <div>Du</div>
+                                        </div> 
+                                        <div>hast reagiert</div>
+                                    } @else if(reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length > 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[1]}}</div>
+                                            <div>und Du</div>    
+                                        </div> 
+                                        <div>haben reagiert</div>
+                                    } @else if(!reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length == 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[0]}}</div>
+                                        </div> 
+                                        <div>hat reagiert</div>
+                                    } @else if(!reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length > 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[0]}}</div>
+                                            <div>und Andere</div>    
+                                        </div> 
+                                        <div>haben reagiert</div>
+                                    }
+                                </div>
+                            </div>    
+                        }
+            
+                        <div *ngIf="reactions?.length > 3" class="reactionContainer">
+                            <div class="ractionEmoji">
+                                <span>+</span>
+                            </div>
+                            <div class="ractionCount">
+                                <div>{{reactions?.length - 3}}</div>
+                            </div>
+                        </div>
+            
+                        <app-reaction-emoji-input class="reactionContainerMoreEmojisOther" *ngIf="showMoreEmojis" [showMoreEmojis]="showMoreEmojis" (showMoreEmojisChild)="closeMoreEmojis(showMoreEmojis)"
+                        [reactionCollectionPath]="reactionCollectionPath" [currentUser]="currentUser" [reactions]="reactions" [threadOrMessageId]="thread?.threadId"></app-reaction-emoji-input>
+                    </div>
+                }
+                <!-- ================================================ -->
+
+            </div>
+    
+            <!-- ========== Toolbar ========== -->
+            <div class="toolBar">
+                <div (click)="saveReaction('✅', this.currentUser)">
+                    <img src="/assets/img/main-chat/check_mark.svg">
+                </div>
+                <div (click)="saveReaction('🙌', this.currentUser)">
+                    <img src="/assets/img/main-chat/raising_hands.svg">
+                </div>
+                <div (click)="openMoreEmojisToolbar()">
+                    <span class="material-symbols-outlined">add_reaction</span>
+                </div>
+                <div *ngIf="activeChannelId !== null" (click)="openThread(thread?.threadId)">
+                    <span class="material-symbols-outlined">comment</span>
+                </div>
+            </div>
+            <app-reaction-emoji-input *ngIf="showMoreEmojisToolbar" [showMoreEmojis]="showMoreEmojisToolbar" (showMoreEmojisChild)="closeMoreEmojis(showMoreEmojis)"
+            [reactionCollectionPath]="reactionCollectionPath" [currentUser]="currentUser" [reactions]="reactions" [threadOrMessageId]="thread?.threadId"></app-reaction-emoji-input>
+        </div>
+        <!-- ============================================================================ -->        
+
+} @else {
+    <!-- ========================= Template Own Message ========================= -->
+        <!-- ========================= Template Own Message - CHANNEL/DM ========================= -->
+        <div class="messageContainerOwn" *ngIf="!ownMessageEdit">
+            <div class="mainMessageOwn">
+                <div>
+                    <div>{{thread?.createdBy}}</div>
+                    <div>{{thread?.time}} Uhr</div>
+                </div>
+                <div>
+                    <div class="mainMessageMessage">
+                        {{thread?.message}}
+                    </div>
+                    <div *ngIf="thread?.imageUrl" class="imgMessage">
+                        <img [src]="thread?.imageUrl" alt="Image uploaded by {{ thread?.createdBy }}"/>
+                        <div class="imgInteraction">
+                            <div (click)="downloadImage(thread?.imageUrl)">
+                            <mat-icon class="material-symbols-rounded" fontIcon="download"></mat-icon>
+                            </div>
+                            <div (click)="openImage(thread?.imageUrl)">
+                            <mat-icon class="material-symbols-rounded" fontIcon="open_in_new"></mat-icon>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="mainMessageThreadsOwn" *ngIf="messageCount > 0">
+                    <div>Letzte Antwort {{lastAnswer}}</div>
+                    <div (click)="openThread(thread?.threadId)">{{messageCount}} {{answers}}</div>
+                </div>
+                <!-- ================ REACTION CONTAINER ================ -->
+                @if(reactions.length !== 0) {
+                    <div class="mainThreadReactions">
+                        <div (click)="openMoreEmojis()">
+                            <span class="material-symbols-outlined">add_reaction</span>
+                        </div>
+                        @for (reaction of reactions | slice:0:3; track $index) {
+                            <div class="reactionContainer" (click)="saveReaction(reaction?.reaction, currentUser)">
+                                <div class="ractionEmoji">
+                                    <span>{{reaction?.reaction}}</span>
+                                </div>
+                                <div class="ractionCount">
+                                    <div>{{reaction?.count}}</div>
+                                </div>
+                                <div class="reactionHoverBubble reactionHoverBubbleOwn">
+                                    <div class="ractionEmoji">
+                                        <span>{{reaction?.reaction}}</span>
+                                    </div>      
+                                    @if (reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length == 1) {
+                                        <div>
+                                            <div>Du</div>
+                                        </div> 
+                                        <div>hast reagiert</div>
+                                    } @else if(reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length > 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[1]}}</div>
+                                            <div>und Du</div>    
+                                        </div> 
+                                        <div>haben reagiert</div>
+                                    } @else if(!reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length == 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[0]}}</div>
+                                        </div> 
+                                        <div>hat reagiert</div>
+                                    } @else if(!reaction?.reactedBy.includes(currentUser) && reaction?.reactedBy.length > 1) {
+                                        <div>
+                                            <div>{{reaction?.reactedByName[0]}}</div>
+                                            <div>und Andere</div>    
+                                        </div> 
+                                        <div>haben reagiert</div>
+                                    }
+                                </div>
+                            </div>    
+                        }
+            
+                        <div *ngIf="reactions?.length > 3" class="reactionContainer">
+                            <div class="ractionEmoji">
+                                <span>+</span>
+                            </div>
+                            <div class="ractionCount">
+                                <div>{{reactions?.length - 3}}</div>
+                            </div>
+                        </div>
+            
+                        <app-reaction-emoji-input class="reactionContainerMoreEmojisOwn" *ngIf="showMoreEmojis" [showMoreEmojis]="showMoreEmojis" (showMoreEmojisChild)="closeMoreEmojis(showMoreEmojis)"
+                        [reactionCollectionPath]="reactionCollectionPath" [currentUser]="currentUser" [reactions]="reactions" [threadOrMessageId]="thread?.threadId"></app-reaction-emoji-input>
+                    </div>
+                }
+                <!-- ================================================ -->
+
+            </div>
+            <div class="messageProfileIcon">
+                <img [src]="thread?.imgUrl">
+            </div>
+    
+            <!-- ========== Toolbar own ========== -->
+            <div class="toolBarOwn">
+                <div (click)="saveReaction('✅', this.currentUser)">
+                    <img src="/assets/img/main-chat/check_mark.svg">
+                </div>
+                <div (click)="saveReaction('🙌', this.currentUser)">
+                    <img src="/assets/img/main-chat/raising_hands.svg">
+                </div>
+                <div (click)="openMoreEmojisToolbar()">
+                    <span class="material-symbols-outlined">add_reaction</span>
+                </div>
+                <div *ngIf="activeChannelId !== null" (click)="openThread(thread?.threadId)">
+                    <span class="material-symbols-outlined">comment</span>
+                </div>
+                <div (click)="moreOptions()">
+                    <span class="material-symbols-outlined">more_vert</span>
+                </div>
+            </div>
+            <app-reaction-emoji-input *ngIf="showMoreEmojisToolbar" [showMoreEmojis]="showMoreEmojisToolbar" (showMoreEmojisChild)="closeMoreEmojis(showMoreEmojis)"
+            [reactionCollectionPath]="reactionCollectionPath" [currentUser]="currentUser" [reactions]="reactions" [threadOrMessageId]="thread?.threadId"></app-reaction-emoji-input>
+
+
+            <div *ngIf="editMessagePopupOpen" class="editMessagePopupBackground" (click)="closeEditMessagePopUp()"></div>
+            <div *ngIf="editMessagePopupOpen" class="editMessagePopup" (click)="doNotClose($event)">
+                <div (click)="editMessage()">
+                    <div>Nachricht bearbeiten</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================= Template Own Message - EDIT ========================= -->
+        <app-edit-own-thread *ngIf="ownMessageEdit" [thread]="thread" [activeChannelId]="activeChannelId" [activeDmUser]="activeDmUser" [currentUser]="currentUser"
+        (ownMessageEditChild)="closeEditedMessage(ownMessageEdit)">
+        </app-edit-own-thread>             
+}

@@ -1,0 +1,46 @@
+<div class="showMembersDialog" (click)="doNotClose($event)">
+    <div>
+        <div>Mitglieder</div>
+        <div (click)="closeDialog()">
+            <span class="material-symbols-outlined">close</span>
+        </div>
+    </div>
+    <div class="usersListContainer">
+        <div class="usersListSubContainer">
+            @for (member of channelMembers; track $index) {
+                @if(member?.id == currentUser) {
+                    <div class="userContainer" style="cursor: default;">
+                        <div class="userSubContainer">
+                            <div>
+                                <img [src]="member?.imgUrl">
+                                <div class="userStatus" [ngStyle]="{'background-color': member?.isOnline ? '#92c83e' : '#686868' }"></div>
+                            </div>
+                            <div>{{member?.name}} <span *ngIf="member?.id == currentUser">(Du)</span></div>    
+                        </div>
+                    </div>
+                } @else {
+                    <div class="userContainer" (click)="openProfileCard(member)">
+                        <div class="userSubContainer">
+                            <div>
+                                <img [src]="member.imgUrl">
+                                <div class="userStatus" [ngStyle]="{'background-color': member?.isOnline ? '#92c83e' : '#686868' }"></div>
+                            </div>
+                            <div>{{member?.name}} <span *ngIf="member?.id == currentUser">(Du)</span></div>    
+                        </div>
+                    </div>        
+                }
+            }
+            <app-profilecards-other-users *ngIf="showProfileCard" [memberData]="memberData" [showMembersDialogOpen]="showMembersDialogOpen" [showProfileCard]="showProfileCard" [currentUser]="currentUser"
+            (showProfileCardChild)="closeProfileCard(showProfileCard)" (showMembersDialogOpenChild)="closeAll(showProfileCard)">
+            </app-profilecards-other-users>
+        </div>
+    </div>
+    <div>
+        <div>
+            <span class="material-symbols-outlined">person_add</span>
+        </div>
+        <div *ngIf="!addMembersMobile" (click)="goToAddMemberDialog()">Mitglieder hinzufügen</div>
+        <div *ngIf="addMembersMobile" (click)="openAddMemberMobile()">Mitglieder hinzufügen</div>
+    </div>
+</div>
+

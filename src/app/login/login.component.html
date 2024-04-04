@@ -1,0 +1,101 @@
+<div class="start-animation-container" [class.d-none]="removeAnimatedContainer">
+    <div class="start-animation-background"></div>
+    <div class="start-animation-logo-and-text-container">
+        <div class="start-animation-logo">
+            <img [class.animate-the-logo]="startLogoAnimation" src="/assets/img/Logo.png">
+        </div>
+        <div class="start-animation-text-container">
+            <p [class.d-none]="!removeDNone" [class.animate-the-text]="startTextAnimation">DaBubble</p>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<div class="login-main">
+
+    <div class="upper-main-container" [class.m-top-30]="addTheUpperMargin">
+        <div class="logo-container">
+            <img src="/assets/img/Logo.png">
+            <p>DABubble</p>
+        </div>
+        <div *ngIf="!under650Px" class="create-account-container">
+            <p>Neu bei DABubble ?</p>
+            <a routerLink="/sign_up">Konto erstellen</a>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="login-form">
+        <h1>Anmeldung</h1>
+        <p class="login-hint">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
+        <form [formGroup]="signInForm">
+            <div class="login-input-main">
+                <input type="text" class="login-email-input" name="email" id="login_email"
+                    placeholder="beispielname@email.com" formControlName="email" (focus)="showEmailErrorDiv = true"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                <div class="error-message-container" [class.visible]="showEmailErrorDiv">
+                    <mat-error *ngIf="signInForm.controls.email.invalid">
+                        {{ checkErrors('email') }}
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="login-input-main">
+                <input [type]="type" class="login-password-input" name="password" id="login_password"
+                    placeholder="Passwort" formControlName="password" (focus)="showPasswordErrorDiv = true">
+                <span (click)="togglePasswordVisibility()" class="the-eye"
+                    [ngClass]="{'visibility_on': isText, 'visibility_off': !isText }"></span>
+                <div class="error-message-container" [class.visible]="showPasswordErrorDiv">
+                    <mat-error *ngIf="signInForm.controls.password.invalid">
+                        {{ checkErrors('password') }}
+                    </mat-error>
+                </div>
+            </div>
+
+        </form>
+        <button class="forgot-password-btn" (click)="goToPasswordReset()">Passwort vergessen?</button>
+
+        <div class="or-container">
+            <img src="/assets/img/login/line.png">
+            <p>ODER</p>
+            <img src="/assets/img/login/line.png">
+        </div>
+
+        <button class="login-with-google-btn" (click)="signInWithGoogle()">
+            <img src="/assets/img/login/google.png">
+            <p>Anmelden mit Google</p>
+        </button>
+
+        <div class="login-btns-container">
+            <button class="login-btn" type="login" [disabled]="!signInForm.valid"
+                [class.btn-disabled]="!signInForm.valid" (click)="signIn()">Anmelden</button>
+            <button class="guest-login-btn" (click)="signInAsGuest()">Gäste-Login</button>
+        </div>
+
+
+    </div>
+
+    <div *ngIf="under650Px" class="create-account-container">
+        <p>Neu bei DABubble ?</p>
+        <a routerLink="/sign_up">Konto erstellen</a>
+    </div>
+
+
+
+
+    <div class="lower-links-container">
+        <a routerLink="/imprint">Impressum</a>
+        <a routerLink="/privacy-policy">Datenschutz</a>
+    </div>
+
+    <div *ngIf="showAlert" class="bad-login-main">
+        <p>Falscher Nutzername oder Passwort <br>
+            Bitte versuchen Sie es erneut.</p>
+    </div>
+</div>

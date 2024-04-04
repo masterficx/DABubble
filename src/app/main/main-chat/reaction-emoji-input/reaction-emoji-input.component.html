@@ -1,0 +1,7 @@
+<div class="backgroundReactionEmojiContainer" (click)="closeEmojiInput()"></div>
+<div class="reactionEmojiContainer" (click)="doNotClose($event)">
+    <input #message name="message" type="text" [(ngModel)]="messageModel" required (focus)="onInputFocus()" (blur)="onInputBlur()">
+    <emoji-mart #emojiMart [darkMode]="false" (emojiSelect)="handleClick($event)" title="Pick your emoji…" emoji="point_up">
+    </emoji-mart>   
+</div>
+

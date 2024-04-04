@@ -1,0 +1,39 @@
+<!-- ========================= Template Own Message - EDIT ========================= -->
+<div class="messageContainerOwnEdit" (click)="message.focus()">
+    <div class="mainMessageOwnEdit">
+        <textarea #message name="message" [(ngModel)]="textAreaEditMessage" (focus)="onInputFocus()" (blur)="onInputBlur()"></textarea>
+        <div *ngIf="thread?.imageUrl" class="imgMessage">
+            <div class="deleteUpload">
+                <mat-icon (click)="deleteDocument(thread?.imageUrl)" class="material-symbols-rounded" fontIcon="close"></mat-icon>
+            </div>
+            <img [src]="thread?.imageUrl" alt="Image uploaded by {{ thread?.createdBy }}"/>
+        </div>
+        <div *ngIf="messageData?.imageUrl" class="imgMessage">
+            <div class="deleteUpload">
+                <mat-icon (click)="deleteDocument(messageData?.imageUrl)" class="material-symbols-rounded" fontIcon="close"></mat-icon>
+            </div>
+            <img [src]="messageData?.imageUrl" alt="Image uploaded by {{ messageData?.createdBy }}"/>
+        </div>
+
+        <div class="messageOwnEditBottom">
+            <div (click)="toggleEmojiPicker()">
+                <span class="material-symbols-outlined">sentiment_satisfied</span>
+            </div>
+            <div *ngIf="!messageId" class="mainChatButtons">
+                <button (click)="closeEditedMessage()">Abbrechen</button>
+                <button (click)="saveEditedMessage()">Speichern</button>
+            </div>
+            <div *ngIf="messageId" class="mainChatButtons secondaryChatButtons">
+                <button (click)="closeEditedMessage()">Abbrechen</button>
+                <button (click)="saveEditedMessage()">Speichern</button>
+            </div>
+        </div>
+    </div>
+    <div class="messageProfileIcon">
+        <img *ngIf="!messageId" [src]="thread?.imgUrl">
+        <img *ngIf="messageId" [src]="messageProfileImg">
+    </div>
+    <emoji-mart #emojiMart *ngIf="showEmojiPicker" [darkMode]="false" (emojiSelect)="handleClick($event)" title="Pick your emoji…" emoji="point_up" (click)="doNotClose($event)">
+    </emoji-mart>
+    <div class="backgroundReactionEmojiContainer" *ngIf="showEmojiPicker" (click)="toggleEmojiPicker()"></div>
+</div>
