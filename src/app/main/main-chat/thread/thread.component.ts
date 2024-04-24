@@ -9,6 +9,7 @@ import { ViewManagementService } from '../../../services/view-management.service
 import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, updateDoc } from '@angular/fire/firestore';
 import { MatIconModule } from '@angular/material/icon';
 import { getDownloadURL, getMetadata, getStorage, ref } from '@angular/fire/storage';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-thread',
@@ -40,8 +41,14 @@ export class ThreadComponent implements OnInit, OnChanges {
   reactionNames =  [];
   reactionCount: number;
   messageCountPath: string;
+  messageContent: SafeHtml;
 
-  constructor(private chatService: ChatService, private main: MainChatComponent, public viewManagementService: ViewManagementService,) { }
+  constructor(
+    private chatService: ChatService, 
+    private main: MainChatComponent, 
+    public viewManagementService: ViewManagementService,
+    private sanitizer: DomSanitizer,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     //this.reactionCollectionPath = this.path + `/${this.thread.threadId}/reactions`;
@@ -58,6 +65,7 @@ export class ThreadComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.loadThreadData();
+    this.checkIfYoutubeLinkInserted(this.thread.message);
   }
 
   /**
@@ -69,6 +77,9 @@ export class ThreadComponent implements OnInit, OnChanges {
       this.getMessageCountAndAnswer();
     }
   }
+
+
+  
 
   /**
    * 
@@ -359,4 +370,21 @@ export class ThreadComponent implements OnInit, OnChanges {
   doNotClose($event: any) {
     $event.stopPropagation();
   }
+
+  checkIfYoutubeLinkInserted(inputValue) {
+    const regex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/g;
+    const matches = inputValue.match(regex);
+    let message = inputValue; 
+    if (matches) {
+      const previews = matches.map(match => {
+        const VID = match.split('v=')[1];
+        const previewHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${VID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        message.replace(match, previewHTML)
+        this.messageContent = this.sanitizer.bypassSecurityTrustHtml(message.replace(match, previewHTML));
+      });
+    } else {
+      this.messageContent = inputValue;
+    }
+  }
+
 }

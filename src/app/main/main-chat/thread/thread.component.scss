@@ -108,8 +108,9 @@
 
         .mainMessageMessage {
             display: flex;
+            flex-direction: column;
             justify-content: flex-start;
-            align-items: center;
+            align-items: flex-start;
             font-size: 18px;
             font-weight: 400;
         }
@@ -211,8 +212,9 @@
 
         .mainMessageMessage {
             display: flex;
+            flex-direction: column ;
             justify-content: flex-start;
-            align-items: center;
+            align-items: flex-start;
             font-size: 18px;
             font-weight: 400;
         }

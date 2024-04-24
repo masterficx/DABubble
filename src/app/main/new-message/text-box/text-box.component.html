@@ -18,6 +18,7 @@
     (keyup.enter)="sendMessage()"
     (keyup)="onInputChange(message.value)"
   ></textarea>
+  <div *ngIf="videoPreview" [innerHTML]="videoPreview"></div>
   <div #userSelection class="userSelection" *ngIf="displayUser || displayChannels">
     <div class="allUser" *ngIf="displayUser">
       <div
@@ -58,6 +59,7 @@
     class="imagePreview"
     [style.backgroundImage]="'url(' + this.imageURL + ')'"
   >
+  
     <div class="deleteUpload">
       <mat-icon
         (click)="removeFileUpload()"

@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiComponent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
@@ -37,6 +38,7 @@ import { TextBoxComponent } from '../../new-message/text-box/text-box.component'
 import { SecondaryChatMessagesComponent } from './secondary-chat-messages/secondary-chat-messages.component';
 import { ViewManagementService } from '../../../services/view-management.service';
 import { MatIconModule } from '@angular/material/icon';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const app = initializeApp(environment.firebase);
 @Component({
@@ -77,6 +79,7 @@ export class SecondaryChatComponent implements OnInit, OnDestroy {
   editingMessageId: string | null = null;
   editingMessageText: string = '';
   openEditOwnMessage: boolean = false;
+  messageContent: SafeHtml;
   /*---------- Emoji and Reaction Variables -----------*/
   emojiWindowOpen = false;
   messageModel: string = '';
@@ -89,7 +92,8 @@ export class SecondaryChatComponent implements OnInit, OnDestroy {
     public chatService: ChatService,
     public userManagementService: UserManagementService,
     public viewManagementService: ViewManagementService,
-    public inputService: InputService
+    public inputService: InputService,
+    private sanitizer: DomSanitizer
   ) {
   }
 
@@ -100,6 +104,10 @@ export class SecondaryChatComponent implements OnInit, OnDestroy {
     this.subcribeThreadId();
     this.getCurrentChannelData();
     this.loadThreadInitMessage();
+    setTimeout(() => {
+      this.checkIfYoutubeLinkInserted(this.firstThreadMessage?.message)
+    }, 1000);
+    
   }
 
   ngOnDestroy(): void {
@@ -540,5 +548,23 @@ export class SecondaryChatComponent implements OnInit, OnDestroy {
   updateCursorPosition(event: any) {
     this.currentCursorPosition = event.target.selectionStart;
   }
+
+  checkIfYoutubeLinkInserted(inputValue) {
+    const regex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/g;
+    const matches = inputValue.match(regex);
+    let message = inputValue; 
+    if (matches) {
+      const previews = matches.map(match => {
+        const VID = match.split('v=')[1];
+        const previewHTML = `<iframe width="256" height="144" src="https://www.youtube.com/embed/${VID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        message.replace(match, previewHTML)
+        this.messageContent = this.sanitizer.bypassSecurityTrustHtml(message.replace(match, previewHTML));
+      });
+    } else {
+      this.messageContent = inputValue;
+    }
+  }
+
+  
 
 }

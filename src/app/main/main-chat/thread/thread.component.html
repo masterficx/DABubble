@@ -12,8 +12,8 @@
                     <div>{{thread?.time}} Uhr</div>
                 </div>
                 <div>
-                    <div class="mainMessageMessage">
-                        {{thread?.message}}
+                    <div class="mainMessageMessage" [innerHTML]="messageContent">
+                        <!-- {{thread?.message}} -->
                     </div>
                     <div *ngIf="thread?.imageUrl" class="imgMessage">
                         <img [src]="thread?.imageUrl" alt="Image uploaded by {{ thread?.createdBy }}"/>
@@ -124,8 +124,8 @@
                     <div>{{thread?.time}} Uhr</div>
                 </div>
                 <div>
-                    <div class="mainMessageMessage">
-                        {{thread?.message}}
+                    <div class="mainMessageMessage" [innerHTML]="messageContent">
+                        <!-- {{thread?.message}} -->
                     </div>
                     <div *ngIf="thread?.imageUrl" class="imgMessage">
                         <img [src]="thread?.imageUrl" alt="Image uploaded by {{ thread?.createdBy }}"/>

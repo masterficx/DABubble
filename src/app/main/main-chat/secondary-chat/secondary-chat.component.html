@@ -31,7 +31,9 @@
             <span>{{ firstThreadMessage?.creationDate | date : "HH:mm" }} Uhr</span>
           </div>
           <div *ngIf="firstThreadMessage?.message || firstThreadMessage?.imageUrl" class="thread-message">
-            <span>{{ firstThreadMessage?.message }}</span>
+            <span [innerHTML]="messageContent" >
+              <!-- {{ firstThreadMessage?.message }} -->
+            </span>
             <div *ngIf="firstThreadMessage?.imageUrl" class="imgMessage">
               <img [src]="firstThreadMessage?.imageUrl" alt="Image uploaded by {{ firstThreadMessage?.createdBy }}"/>
               <div class="imgInteraction">
@@ -61,7 +63,9 @@
             >
           </div>
           <div *ngIf="firstThreadMessage?.message || firstThreadMessage?.imageUrl" class="thread-message own-message">
-            <span>{{ firstThreadMessage?.message }}</span>
+            <span [innerHTML]="messageContent">
+              <!-- {{ firstThreadMessage?.message }} -->
+            </span>
             <div *ngIf="firstThreadMessage?.imageUrl" class="imgMessage">
               <img [src]="firstThreadMessage?.imageUrl" alt="Image uploaded by {{ firstThreadMessage?.createdBy }}"/>
               <div class="imgInteraction">

@@ -18,6 +18,7 @@ import {
 import { ReactionEmojiInputComponent } from '../../reaction-emoji-input/reaction-emoji-input.component';
 import { MatIconModule } from '@angular/material/icon';
 import { EditOwnThreadComponent } from '../../thread/edit-own-thread/edit-own-thread.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-secondary-chat-messages',
   standalone: true,
@@ -44,11 +45,12 @@ export class SecondaryChatMessagesComponent implements OnInit, OnDestroy {
   showMoreEmojisToolbar: boolean = false;
   messageDeleted: boolean = false;
   ownMessageEdit: boolean = false;
+  messageContent: SafeHtml;
 
   private firestore: Firestore = inject(Firestore);
   private storage: FirebaseStorage;
 
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
     this.storage = getStorage();
   }
 
@@ -56,6 +58,7 @@ export class SecondaryChatMessagesComponent implements OnInit, OnDestroy {
     this.setupReactionPath();
     this.getReactions();
     this.setupOutsideClickHandler();
+    this.checkIfYoutubeLinkInserted(this.message.message);
   }
 
   ngOnDestroy(): void {
@@ -392,6 +395,22 @@ export class SecondaryChatMessagesComponent implements OnInit, OnDestroy {
    */
   closeEditedMessage(dialogBoolen: boolean) {
     this.ownMessageEdit = false;
+  }
+
+  checkIfYoutubeLinkInserted(inputValue) {
+    const regex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/g;
+    const matches = inputValue.match(regex);
+    let message = inputValue;
+    if (matches) {
+      const previews = matches.map(match => {
+        const VID = match.split('v=')[1];
+        const previewHTML = `<iframe width="256" height="144" src="https://www.youtube.com/embed/${VID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        message.replace(match, previewHTML)
+        this.messageContent = this.sanitizer.bypassSecurityTrustHtml(message.replace(match, previewHTML));
+      });
+    } else {
+      this.messageContent = inputValue;
+    }
   }
 
 }

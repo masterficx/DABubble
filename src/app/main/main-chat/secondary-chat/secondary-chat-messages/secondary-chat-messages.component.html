@@ -8,7 +8,9 @@
             <span>{{ message.creationDate | date:'HH:mm' }} Uhr</span>
         </div>
         <div class="thread-message">
-            <span>{{ message.message }}</span>           
+            <span [innerHTML]="messageContent">
+                <!-- {{ message.message }} -->
+            </span>           
             <div *ngIf="message?.imageUrl" class="imgMessage">
                 <img [src]="message?.imageUrl" alt="Image uploaded by {{ message?.createdBy }}"/>
                 <div class="imgInteraction">
@@ -107,7 +109,9 @@
         </div>
 
         <div *ngIf="message?.message || message?.imageUrl" class="thread-message own-bubble">
-            <span>{{ message.message }}</span>
+            <span [innerHTML]="messageContent">
+                <!-- {{ message.message }} -->
+            </span>
             <div *ngIf="message?.imageUrl" class="imgMessage">
                 <img [src]="message?.imageUrl" alt="Image uploaded by {{ message?.createdBy }}"/>
                 <div class="imgInteraction">

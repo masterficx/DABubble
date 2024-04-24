@@ -35,7 +35,7 @@ import { UserManagementService } from '../../../services/user-management.service
 import { ViewManagementService } from '../../../services/view-management.service';
 import { ChatService } from '../../../services/chat.service';
 import { DirectMessage } from '../../../../models/directMessage.class';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-text-box',
   standalone: true,
@@ -61,7 +61,7 @@ export class TextBoxComponent {
   @Input() placeholderText: string;
 
   inputFocused: boolean = false;
-  messageModel: string = '';
+  messageModel: any = '';
   showEmojiPicker: boolean = false;
   showMentionUser: boolean = false;
   displayUser: boolean = false;
@@ -72,6 +72,9 @@ export class TextBoxComponent {
   filteredChannel: any = [];
   allChannel: any = [];
   storage = inject(Storage);
+  YTLink: boolean = false;
+  
+  videoPreview: any | undefined;
   private firestore: Firestore = inject(Firestore);
 
   private userSubscription!: Subscription;
@@ -80,14 +83,17 @@ export class TextBoxComponent {
   private userIdSubscription: Subscription;
   public imageURL: string | undefined;
   public filePath: string | undefined;
+  
+  
 
   constructor(
     public userManagementService: UserManagementService,
     private viewManagementService: ViewManagementService,
     private cdRef: ChangeDetectorRef,
     private chatService: ChatService,
-    private renderer: Renderer2
-  ) {}
+    private renderer: Renderer2,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit(): void {
     this.subscribeToUsers();
@@ -111,14 +117,16 @@ export class TextBoxComponent {
   listenToCloseUserSelection(): void {
     this.renderer.listen('document', 'click', (event) => {
       if (this.userSelection && !this.userSelection.nativeElement.contains(event.target) &&
-          this.messageInput && !this.messageInput.nativeElement.contains(event.target)) {
+        this.messageInput && !this.messageInput.nativeElement.contains(event.target)) {
         this.displayUser = false;
         this.cdRef.detectChanges();
       }
     });
   }
-  
-  
+
+  sanitize(html: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
 
   subscribeToUsers(): void {
     const usersCollection = collection(this.firestore, 'users');
@@ -445,6 +453,7 @@ export class TextBoxComponent {
     this.filePath = undefined;
     this.displayUser = false;
     this.displayChannels = false;
+    this.videoPreview = undefined;
   }
 
   private async handleThreadMessage() {
@@ -452,15 +461,13 @@ export class TextBoxComponent {
     const docRef = await addDoc(
       collection(
         this.firestore,
-        `channels/${this.chatService.getActiveChannelId()}/threads/${
-          this.targetId
+        `channels/${this.chatService.getActiveChannelId()}/threads/${this.targetId
         }/messages`
       ),
       newMessage
     );
     await this.updateDocument(
-      `channels/${this.chatService.getActiveChannelId()}/threads/${
-        this.targetId
+      `channels/${this.chatService.getActiveChannelId()}/threads/${this.targetId
       }/messages`,
       docRef.id,
       { messageId: docRef.id }
@@ -501,6 +508,8 @@ export class TextBoxComponent {
     const textUpToCursor = inputValue.substring(0, cursorPosition);
     const lastAtPos = textUpToCursor.lastIndexOf('@');
     const lastHashPos = textUpToCursor.lastIndexOf('#');
+    
+    this.checkIfYoutubeLinkInserted(inputValue);
 
     if (lastAtPos === -1 && lastHashPos === -1) {
       this.displayUser = false;
@@ -524,7 +533,26 @@ export class TextBoxComponent {
     } else {
       this.resetFilters();
     }
+
+
+    
   }
+
+  checkIfYoutubeLinkInserted(inputValue: string){
+    const regex = /(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/g;
+    const matches = inputValue.match(regex);
+    if (matches) {
+     this.YTLink = true;
+      matches.forEach(match => {
+        const VID = match.split('v=')[1];      
+        const previewHTML = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${VID}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        this.videoPreview = this.sanitize(previewHTML);
+      })
+            
+    }
+  }
+
+
 
   handleUserSearch(searchTerm: string): void {
     this.filteredUsers = this.allUsers.filter((user) =>
